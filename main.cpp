@@ -2,25 +2,14 @@
 #include "DxLib.h"
 volatile int EndFlag;
 
-int abs(int a) {
-	if (a > 0) {
-		return a;
-	}
-	else {
-		return -a;
-	}
-}
-
 DWORD WINAPI MainThread(LPVOID)
 {
 	int floor;
 	int i, j;
 	floor = LoadGraph("./images/floor.png", TRUE);
-	for (i = -8; i < 8; i++) {
-		for (j = -8; j < 8; j++) {
-			if (7 - abs(i) > abs(j)) {
-				DrawRotaGraph(20 * j + 150, 30 * i + 150, 1, 0, floor, TRUE);
-			}
+	for (i = 0; i < 10; i++) {
+		for (j = 0; j < 10; j++) {
+			DrawRotaGraph(22 * j - i * 23 + 300, 12 * i + 12 * j + 150, 1, 0, floor, TRUE);
 		}
 	}
 	
