@@ -1,17 +1,24 @@
+#include <iostream>
 #include "DxLib.h"
+volatile int EndFlag;
+
+DWORD WINAPI MainThread(LPVOID)
+{
+	
+}
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
-	{
-		return -1;			// エラーが起きたら直ちに終了
-	}
-
-	DrawPixel(320, 240, GetColor(255, 255, 255));	// 点を打つ
-
-	WaitKey();				// キー入力待ち
-
+	ChangeWindowMode(TRUE), SetAlwaysRunFlag(TRUE), DxLib_Init(), SetDrawScreen(DX_SCREEN_BACK);
+	HANDLE hand;
+	DWORD id;
+	hand = CreateThread(NULL, 0, MainThread, 0, 0, &id);
+	while (ProcessMessage() == 0)Sleep(10);
+	EndFlag = 1;
+	while (EndFlag == 0)Sleep(10);
+	ClearDrawScreen();
+	DrawFormatString(500, 130, GetColor(128, 64, 255), ("Finish Game"));
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 
 	return 0;				// ソフトの終了 
