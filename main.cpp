@@ -4,7 +4,10 @@ volatile int EndFlag;
 
 DWORD WINAPI MainThread(LPVOID)
 {
-	
+	int floor;
+	floor = LoadGraph("./images/floor.png", TRUE);
+	DrawRotaGraph(50, 50, 1, 0, floor, TRUE);
+	return 0;
 }
 
 // ƒvƒƒOƒ‰ƒ€‚Í WinMain ‚©‚çn‚Ü‚è‚Ü‚·
