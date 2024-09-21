@@ -2,22 +2,28 @@
 #include "DxLib.h"
 volatile int EndFlag;
 
+void DrawScreen(int floor, int Lwall, int Rwall) {
+	int i, j;
+	DrawRotaGraph(440, -62, 1, 0, Rwall, TRUE);
+	DrawRotaGraph(200, -62, 1, 0, Lwall, TRUE);
+	for (i = 0; i < 10; i++) {
+		for (j = 0; j < 10; j++) {
+			DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, floor, TRUE);
+		}
+	}
+}
+
 DWORD WINAPI MainThread(LPVOID)
 {
-	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
-		int floor, Lwall, Rwall;
-		int i, j;
-		floor = LoadGraph("./images/floor.png", TRUE);
-		Lwall = LoadGraph("./images/wallleft.png", TRUE);
-		Rwall = LoadGraph("./images/wallright.png", TRUE);
-		DrawRotaGraph(440, -62, 1, 0, Rwall, TRUE);
-		DrawRotaGraph(200, -62, 1, 0, Lwall, TRUE);
+	int floor, Lwall, Rwall;
+	
+	floor = LoadGraph("./images/floor.png", TRUE);
+	Lwall = LoadGraph("./images/wallleft.png", TRUE);
+	Rwall = LoadGraph("./images/wallright.png", TRUE);
 
-		for (i = 0; i < 10; i++) {
-			for (j = 0; j < 10; j++) {
-				DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, floor, TRUE);
-			}
-		}
+	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
+		DrawScreen(floor, Lwall, Rwall);
+
 	}
 	
 	
