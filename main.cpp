@@ -105,8 +105,8 @@ DWORD WINAPI MainThread(LPVOID)
 	bool sceneF = false, move = false;
 	int map[10][10]{};
 	int selected[2] = { 0, 0 };
-	map[3][1] = 6;
-	map[5][1] = 2;
+	map[3][3] = 2;
+	map[3][1] = 8;
 	
 
 	floor = LoadGraph("./images/floor.png", TRUE);
@@ -173,7 +173,7 @@ DWORD WINAPI MainThread(LPVOID)
 					//‰º‚ÉˆÚ“®
 					if (selected[0] < 9) {
 						//ˆÚ“®æ‚É‚à‚Ì‚ª‚È‚©‚Á‚½‚ç
-						if ((map[selected[0] + 1][selected[1] + 1] == 0) && (map[selected[0] + 1][selected[1]] == 0) && map[selected[0]][selected[1] - 1] == -1) {
+						if ((map[selected[0] + 1][selected[1] - 1] == 0) && (map[selected[0] + 1][selected[1]] == 0) && map[selected[0]][selected[1] - 1] == -1) {
 							map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
 							map[selected[0]][selected[1]] = 0;
 							map[selected[0]][selected[1] - 1] = 0;
@@ -195,7 +195,26 @@ DWORD WINAPI MainThread(LPVOID)
 				releaseKeyDOWN = (CheckHitKey(KEY_INPUT_DOWN) == 0);
 				if (CheckHitKey(KEY_INPUT_RIGHT) && releaseKeyRIGHT) {
 					//‰E‚ÉˆÚ“®
-
+					if (selected[1] < 9) {
+						//ˆÚ“®æ‚É‚à‚Ì‚ª‚È‚©‚Á‚½‚ç
+						if ((map[selected[0] - 1][selected[1] + 1] == 0) && (map[selected[0]][selected[1] + 1] == 0) && map[selected[0] - 1][selected[1]] == -2) {
+							map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
+							map[selected[0]][selected[1]] = 0;
+							map[selected[0] - 1][selected[1]] = 0;
+							selected[1]++;
+						}
+						else if (map[selected[0]][selected[1] + 1] == 0 && map[selected[0]][selected[1] - 1] == -1) {
+							map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
+							map[selected[0]][selected[1]] = map[selected[0]][selected[1] - 1];
+							map[selected[0]][selected[1] - 1] = 0;
+							selected[1]++;
+						}
+						else if (map[selected[0]][selected[1] + 1] == 0 && map[selected[0]][selected[1]] <= 4) {
+							map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
+							map[selected[0]][selected[1]] = 0;
+							selected[1]++;
+						}
+					}
 				}
 				releaseKeyRIGHT = (CheckHitKey(KEY_INPUT_RIGHT) == 0);
 				if (CheckHitKey(KEY_INPUT_LEFT) && releaseKeyLEFT) {
