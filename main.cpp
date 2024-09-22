@@ -106,7 +106,7 @@ DWORD WINAPI MainThread(LPVOID)
 	int map[10][10]{};
 	int selected[2] = { 0, 0 };
 	map[3][3] = 2;
-	map[3][1] = 8;
+	map[3][1] = 6;
 	
 
 	floor = LoadGraph("./images/floor.png", TRUE);
@@ -219,7 +219,26 @@ DWORD WINAPI MainThread(LPVOID)
 				releaseKeyRIGHT = (CheckHitKey(KEY_INPUT_RIGHT) == 0);
 				if (CheckHitKey(KEY_INPUT_LEFT) && releaseKeyLEFT) {
 					//ç∂Ç…à⁄ìÆ
-
+					if (selected[1] >  0) {
+						//à⁄ìÆêÊÇ…Ç‡ÇÃÇ™Ç»Ç©Ç¡ÇΩÇÁ
+						if ((map[selected[0] - 1][selected[1] - 1] == 0) && (map[selected[0]][selected[1] - 1] == 0) && map[selected[0] - 1][selected[1]] == -2) {
+							map[selected[0]][selected[1] - 1] = map[selected[0]][selected[1]];
+							map[selected[0]][selected[1]] = 0;
+							map[selected[0] - 1][selected[1]] = 0;
+							selected[1]--;
+						}
+						else if (map[selected[0]][selected[1] - 2] == 0 && map[selected[0]][selected[1] - 1] == -1) {
+							map[selected[0]][selected[1] - 2] = map[selected[0]][selected[1] - 1];
+							map[selected[0]][selected[1] - 1] = map[selected[0]][selected[1]];
+							map[selected[0]][selected[1]] = 0;
+							selected[1]--;
+						}
+						else if (map[selected[0]][selected[1] - 1] == 0 && map[selected[0]][selected[1]] <= 4) {
+							map[selected[0]][selected[1] - 1] = map[selected[0]][selected[1]];
+							map[selected[0]][selected[1]] = 0;
+							selected[1]--;
+						}
+					}
 				}
 				releaseKeyLEFT = (CheckHitKey(KEY_INPUT_LEFT) == 0);
 				}
