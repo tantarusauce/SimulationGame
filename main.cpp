@@ -105,8 +105,8 @@ DWORD WINAPI MainThread(LPVOID)
 	bool sceneF = false, move = false;
 	int map[10][10]{};
 	int selected[2] = { 0, 0 };
-	map[5][2] = 6;
-	map[3][1] = 2;
+	map[3][1] = 5;
+	map[5][1] = 2;
 	
 
 	floor = LoadGraph("./images/floor.png", TRUE);
@@ -153,6 +153,7 @@ DWORD WINAPI MainThread(LPVOID)
 						if ((map[selected[0] - 1][selected[1] - 1] == 0) && (map[selected[0] - 1][selected[1]] == 0) && map[selected[0]][selected[1] - 1] == -1) {
 							map[selected[0] - 1][selected[1]] = map[selected[0]][selected[1]];
 							map[selected[0]][selected[1]] = 0;
+							map[selected[0]][selected[1] - 1] = 0;
 							selected[0]--;
 						}
 						else if (map[selected[0] - 2][selected[1]] == 0 && map[selected[0] - 1][selected[1]] == -2) {
@@ -170,7 +171,25 @@ DWORD WINAPI MainThread(LPVOID)
 				releaseKeyUP = (CheckHitKey(KEY_INPUT_UP) == 0);
 				if (CheckHitKey(KEY_INPUT_DOWN) && releaseKeyDOWN) {
 					//‰º‚ÉˆÚ“®
-
+					//if (selected[0] < 9) {
+					//	//ˆÚ“®æ‚É‚à‚Ì‚ª‚È‚©‚Á‚½‚ç
+					//	if ((map[selected[0] + 1][selected[1] + 1] == 0) && (map[selected[0] + 1][selected[1]] == 0) && map[selected[0]][selected[1] - 1] == -1) {
+					//		map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
+					//		map[selected[0]][selected[1]] = 0;
+					//		selected[0]++;
+					//	}
+					//	else if (map[selected[0] + 1][selected[1]] == 0 && map[selected[0] - 1][selected[1]] == -2) {
+					//		/*map[selected[0] - 2][selected[1]] = map[selected[0] - 1][selected[1]];
+					//		map[selected[0] - 1][selected[1]] = map[selected[0]][selected[1]];
+					//		map[selected[0]][selected[1]] = 0;
+					//		selected[0]--*/;
+					//	}
+					//	else if (map[selected[0] + 1][selected[1]] == 0 && map[selected[0]][selected[1]] <= 4) {
+					//		map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
+					//		map[selected[0]][selected[1]] = 0;
+					//		selected[0]++;
+					//	}
+					//}
 				}
 				releaseKeyDOWN = (CheckHitKey(KEY_INPUT_DOWN) == 0);
 				if (CheckHitKey(KEY_INPUT_RIGHT) && releaseKeyRIGHT) {
