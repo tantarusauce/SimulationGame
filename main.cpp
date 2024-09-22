@@ -103,9 +103,10 @@ DWORD WINAPI MainThread(LPVOID)
 	bool releaseKeyF = true, releaseKeyB = true, releaseKeySPACE = true, releaseKeyUP = true, releaseKeyDOWN = true;
 	bool releaseKeyLEFT = true, releaseKeyRIGHT = true;
 	bool sceneF = false, move = false;
-	int map[10][10] = {0};
+	int map[10][10]{};
 	int selected[2] = { 0, 0 };
-	map[5][1] = 8;
+	map[5][2] = 5;
+	map[3][1] = 2;
 	
 
 	floor = LoadGraph("./images/floor.png", TRUE);
@@ -149,13 +150,29 @@ DWORD WINAPI MainThread(LPVOID)
 					//ã‚ÉˆÚ“®
 					if (selected[0] > 0) {
 						//ˆÚ“®æ‚É‚à‚Ì‚ª‚È‚©‚Á‚½‚ç
-						if (map[selected[0] - 1][selected[1]] == 0) {
+						if ((map[selected[0] - 1][selected[1] - 1] == 0) && (map[selected[0] - 1][selected[1]] == 0) && map[selected[0]][selected[1] - 1] == -1) {
 							map[selected[0] - 1][selected[1]] = map[selected[0]][selected[1]];
 							map[selected[0]][selected[1]] = 0;
 							selected[0]--;
 							if (map[selected[0]][selected[1]] >= 5 && map[selected[0]][selected[1]] <= 8) {
-								map[selected[0] + 1][selected[1] - 1] = 0;
-								map[selected[0]][selected[1] - 1] = -1;
+								if (map[selected[0] + 1][selected[1] - 1] == -1) {
+									map[selected[0] + 1][selected[1] - 1] = 0;
+									map[selected[0]][selected[1] - 1] = -1;
+								}
+							}
+							
+						}
+						else if (map[selected[0] - 3][selected[1]] == 0 && map[selected[0] - 2][selected[1]] == -2) {
+
+						}else if(map[selected[0] - 1][selected[1]] == 0 && map[selected[0]][selected[1]] <= 4) {
+							map[selected[0] - 1][selected[1]] = map[selected[0]][selected[1]];
+							map[selected[0]][selected[1]] = 0;
+							selected[0]--;
+							if (map[selected[0]][selected[1]] >= 5 && map[selected[0]][selected[1]] <= 8) {
+								if (map[selected[0] + 1][selected[1] - 1] == -1) {
+									map[selected[0] + 1][selected[1] - 1] = 0;
+									map[selected[0]][selected[1] - 1] = -1;
+								}
 							}
 						}
 					}
