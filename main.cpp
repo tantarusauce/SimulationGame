@@ -100,11 +100,12 @@ DWORD WINAPI MainThread(LPVOID)
 	//初期化
 	int floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, omi, select;
 	int scene = 0;
-	bool releaseKeyF = true, releaseKeyB = true, releaseKeySPACE = true;
+	bool releaseKeyF = true, releaseKeyB = true, releaseKeySPACE = true, releaseKeyUP = true, releaseKeyDOWN = true;
+	bool releaseKeyLEFT = true, releaseKeyRIGHT = true;
 	bool sceneF = false, move = false;
 	int map[10][10] = {0};
 	int selected[2] = { 0, 0 };
-	map[0][0] = 8;
+	map[0][1] = 8;
 	
 
 	floor = LoadGraph("./images/floor.png", TRUE);
@@ -133,6 +134,28 @@ DWORD WINAPI MainThread(LPVOID)
 			//オブジェクト移動画面
 			if (CheckHitKey(KEY_INPUT_SPACE) && releaseKeySPACE) {
 				move = move ? false : true;
+			}
+			if (move) {
+				if (CheckHitKey(KEY_INPUT_UP) && releaseKeyUP) {
+					//上に移動
+
+				}
+				releaseKeyUP = (CheckHitKey(KEY_INPUT_UP) == 0);
+				if (CheckHitKey(KEY_INPUT_DOWN) && releaseKeyDOWN) {
+					//下に移動
+
+				}
+				releaseKeyDOWN = (CheckHitKey(KEY_INPUT_DOWN) == 0);
+				if (CheckHitKey(KEY_INPUT_RIGHT) && releaseKeyRIGHT) {
+					//右に移動
+
+				}
+				releaseKeyRIGHT = (CheckHitKey(KEY_INPUT_RIGHT) == 0);
+				if (CheckHitKey(KEY_INPUT_LEFT) && releaseKeyLEFT) {
+					//左に移動
+
+				}
+				releaseKeyLEFT = (CheckHitKey(KEY_INPUT_LEFT) == 0);
 			}
 			releaseKeySPACE = (CheckHitKey(KEY_INPUT_SPACE) == 0);
 			
