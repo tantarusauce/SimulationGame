@@ -11,6 +11,20 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 		for (j = 0; j < 10; j++) {
 			switch (map[i][j]) {
 			/*
+			case -4:
+				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150 - 10, 1, 0, floor, TRUE);
+				}
+				else {
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, floor, TRUE);
+				}
+			case -3:
+				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150 - 10, 1, 0, floor, TRUE);
+				}
+				else {
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, floor, TRUE);
+				}
 			case -2:
 				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
 					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150 - 10, 1, 0, floor, TRUE);
