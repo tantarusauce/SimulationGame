@@ -3,12 +3,29 @@
 volatile int EndFlag;
 
 void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int omi, int back, int select, int map[10][10], int scene, int selected[2], bool move) {
-	int i, j;
+	int i, j, k;
 	DrawRotaGraph(440, -62, 1, 0, Rwall, TRUE);
 	DrawRotaGraph(200, -62, 1, 0, Lwall, TRUE);
+	for(k = 0; k < 2; k++){
 	for (i = 0; i < 10; i++) {
 		for (j = 0; j < 10; j++) {
-			switch(map[i][j]) {
+			switch (map[i][j]) {
+			/*
+			case -2:
+				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150 - 10, 1, 0, floor, TRUE);
+				}
+				else {
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, floor, TRUE);
+				}
+			case -1:
+				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150 - 10, 1, 0, floor, TRUE);
+				}
+				else {
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, floor, TRUE);
+				}
+				*/
 			case 0:
 				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
 					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150 - 10, 1, 0, floor, TRUE);
@@ -16,7 +33,7 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 				else {
 					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, floor, TRUE);
 				}
-				
+
 				break;
 			case 1://左下を向いたボックス
 				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
@@ -68,7 +85,7 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 				else {
 					DrawRotaGraph(24 * j - i * 24 + 343, 12 * i + 12 * j + 117, 1, 0, LBox3, TRUE);
 				}
-				map[i - 1][j] = -2;
+				map[i - 1][j] = -3;
 				break;
 			case 8://右奥を向いたラージボックス
 				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
@@ -77,13 +94,13 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 				else {
 					DrawRotaGraph(24 * j - i * 24 + 309, 12 * i + 12 * j + 117, 1, 0, LBox4, TRUE);
 				}
-				map[i][j - 1] = -1;
+				map[i][j - 1] = -4;
 				break;
 			}
-			if(scene == 1)DrawRotaGraph(24 * selected[1] - selected[0] * 24 + 320, 12 * selected[0] + 12 * selected[1] + 150, 1, 0, select, TRUE);
-			
+			if (scene == 1)DrawRotaGraph(24 * selected[1] - selected[0] * 24 + 320, 12 * selected[0] + 12 * selected[1] + 150, 1, 0, select, TRUE);
 
 
+			}
 		}
 	}
 	if (scene == 0) {
@@ -106,7 +123,7 @@ DWORD WINAPI MainThread(LPVOID)
 	int map[10][10]{};
 	int selected[2] = { 0, 0 };
 	map[3][3] = 2;
-	map[3][1] = 6;
+	map[3][1] = 8;
 	
 
 	floor = LoadGraph("./images/floor.png", TRUE);
@@ -139,10 +156,10 @@ DWORD WINAPI MainThread(LPVOID)
 			}
 			if (move) {
 				if (map[selected[0]][selected[1]] != 0) {
-					if (map[selected[0]][selected[1]] == -1) {
+					if (map[selected[0]][selected[1]] == -1 || map[selected[0]][selected[1]] == -4) {
 						selected[1]++;
 					}
-					if (map[selected[0]][selected[1]] == -2) {
+					if (map[selected[0]][selected[1]] == -2 || map[selected[0]][selected[1]] == -3) {
 						selected[0]++;
 					}
 				//オブジェクト移動
@@ -150,13 +167,13 @@ DWORD WINAPI MainThread(LPVOID)
 					//上に移動
 					if (selected[0] > 0) {
 						//移動先にものがなかったら
-						if ((map[selected[0] - 1][selected[1] - 1] == 0) && (map[selected[0] - 1][selected[1]] == 0) && map[selected[0]][selected[1] - 1] == -1) {
+						if ((map[selected[0] - 1][selected[1] - 1] == 0) && (map[selected[0] - 1][selected[1]] == 0) && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4)) {
 							map[selected[0] - 1][selected[1]] = map[selected[0]][selected[1]];
 							map[selected[0]][selected[1]] = 0;
 							map[selected[0]][selected[1] - 1] = 0;
 							selected[0]--;
 						}
-						else if (map[selected[0] - 2][selected[1]] == 0 && map[selected[0] - 1][selected[1]] == -2) {
+						else if (map[selected[0] - 2][selected[1]] == 0 && (map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3)) {
 							map[selected[0] - 2][selected[1]] = map[selected[0] - 1][selected[1]];
 							map[selected[0] - 1][selected[1]] = map[selected[0]][selected[1]];
 							map[selected[0]][selected[1]] = 0;
@@ -173,13 +190,13 @@ DWORD WINAPI MainThread(LPVOID)
 					//下に移動
 					if (selected[0] < 9) {
 						//移動先にものがなかったら
-						if ((map[selected[0] + 1][selected[1] - 1] == 0) && (map[selected[0] + 1][selected[1]] == 0) && map[selected[0]][selected[1] - 1] == -1) {
+						if ((map[selected[0] + 1][selected[1] - 1] == 0) && (map[selected[0] + 1][selected[1]] == 0) && (map[selected[0]][selected[1] - 1] == -1|| map[selected[0]][selected[1] - 1] == -4)) {
 							map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
 							map[selected[0]][selected[1]] = 0;
 							map[selected[0]][selected[1] - 1] = 0;
 							selected[0]++;
 						}
-						else if (map[selected[0] + 1][selected[1]] == 0 && map[selected[0] - 1][selected[1]] == -2) {
+						else if (map[selected[0] + 1][selected[1]] == 0 && (map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3)) {
 							map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
 							map[selected[0] ][selected[1]] = map[selected[0]-1][selected[1]];
 							map[selected[0] - 1][selected[1]] = 0;
@@ -197,13 +214,13 @@ DWORD WINAPI MainThread(LPVOID)
 					//右に移動
 					if (selected[1] < 9) {
 						//移動先にものがなかったら
-						if ((map[selected[0] - 1][selected[1] + 1] == 0) && (map[selected[0]][selected[1] + 1] == 0) && map[selected[0] - 1][selected[1]] == -2) {
+						if ((map[selected[0] - 1][selected[1] + 1] == 0) && (map[selected[0]][selected[1] + 1] == 0) && (map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3)) {
 							map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
 							map[selected[0]][selected[1]] = 0;
 							map[selected[0] - 1][selected[1]] = 0;
 							selected[1]++;
 						}
-						else if (map[selected[0]][selected[1] + 1] == 0 && map[selected[0]][selected[1] - 1] == -1) {
+						else if (map[selected[0]][selected[1] + 1] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4)) {
 							map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
 							map[selected[0]][selected[1]] = map[selected[0]][selected[1] - 1];
 							map[selected[0]][selected[1] - 1] = 0;
@@ -221,13 +238,13 @@ DWORD WINAPI MainThread(LPVOID)
 					//左に移動
 					if (selected[1] >  0) {
 						//移動先にものがなかったら
-						if ((map[selected[0] - 1][selected[1] - 1] == 0) && (map[selected[0]][selected[1] - 1] == 0) && map[selected[0] - 1][selected[1]] == -2) {
+						if ((map[selected[0] - 1][selected[1] - 1] == 0) && (map[selected[0]][selected[1] - 1] == 0) && (map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3)) {
 							map[selected[0]][selected[1] - 1] = map[selected[0]][selected[1]];
 							map[selected[0]][selected[1]] = 0;
 							map[selected[0] - 1][selected[1]] = 0;
 							selected[1]--;
 						}
-						else if (map[selected[0]][selected[1] - 2] == 0 && map[selected[0]][selected[1] - 1] == -1) {
+						else if (map[selected[0]][selected[1] - 2] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4)) {
 							map[selected[0]][selected[1] - 2] = map[selected[0]][selected[1] - 1];
 							map[selected[0]][selected[1] - 1] = map[selected[0]][selected[1]];
 							map[selected[0]][selected[1]] = 0;
