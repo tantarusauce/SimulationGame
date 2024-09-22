@@ -2,44 +2,65 @@
 #include "DxLib.h"
 volatile int EndFlag;
 
-void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int omi, int back, int select, int map[10][10], int scene, int selected[2], bool move) {
+void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int LBox5, int LBox6, int LBox7,int LBox8, int omi, int back, int select, int map[10][10], int scene, int selected[2], bool move) {
 	int i, j, k;
 	DrawRotaGraph(440, -62, 1, 0, Rwall, TRUE);
 	DrawRotaGraph(200, -62, 1, 0, Lwall, TRUE);
-	for(k = 0; k < 2; k++){
 	for (i = 0; i < 10; i++) {
 		for (j = 0; j < 10; j++) {
 			switch (map[i][j]) {
-			/*
+				{
+			case 5://左下を向いたラージボックス
+				map[i][j - 1] = -1;
+				break;
+			case 6://右下を向いたラージボックス
+				map[i - 1][j] = -2;
+				break;
+			case 7://左奥を向いたラージボックス
+				map[i - 1][j] = -3;
+				break;
+			case 8://右奥を向いたラージボックス
+				map[i][j - 1] = -4;
+				break;
+				}
+			}
+		}
+	}
+	for (i = 0; i < 10; i++) {
+		for (j = 0; j < 10; j++) {
+			switch (map[i][j]) {
 			case -4:
-				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150 - 10, 1, 0, floor, TRUE);
+				if (selected[0] == i && selected[1] - 1 == j && scene == 1 && move) {
+					DrawRotaGraph(24 * j - i * 24 + 318, 12 * i + 12 * j + 130 - 10, 1, 0, LBox8, TRUE);
 				}
 				else {
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, floor, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 318, 12 * i + 12 * j + 130, 1, 0, LBox8, TRUE);
 				}
+				break;
 			case -3:
-				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150 - 10, 1, 0, floor, TRUE);
+				if (selected[0] == i - 1 && selected[1] == j && scene == 1 && move) {
+					DrawRotaGraph(24 * j - i * 24 + 323, 12 * i + 12 * j + 130 - 10, 1, 0, LBox7, TRUE);
 				}
 				else {
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, floor, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 323, 12 * i + 12 * j + 130, 1, 0, LBox7, TRUE);
 				}
+				break;
 			case -2:
-				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150 - 10, 1, 0, floor, TRUE);
+				if (selected[0] - 1 == i && selected[1] == j && scene == 1 && move) {
+					DrawRotaGraph(24 * j - i * 24 + 323, 12 * i + 12 * j + 133 - 10, 1, 0, LBox6, TRUE);
 				}
 				else {
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, floor, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 323, 12 * i + 12 * j + 133, 1, 0, LBox6, TRUE);
 				}
+				break;
 			case -1:
-				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150 - 10, 1, 0, floor, TRUE);
+				if (selected[0] == i && selected[1] - 1 == j && scene == 1 && move) {
+					DrawRotaGraph(24 * j - i * 24 + 318, 12 * i + 12 * j + 135 - 10, 1, 0, LBox5, TRUE);
 				}
 				else {
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, floor, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 318, 12 * i + 12 * j + 135, 1, 0, LBox5, TRUE);
 				}
-				*/
+				break;
 			case 0:
 				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
 					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150 - 10, 1, 0, floor, TRUE);
@@ -76,45 +97,40 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 				break;
 			case 5://左下を向いたラージボックス
 				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
-					DrawRotaGraph(24 * j - i * 24 + 310, 12 * i + 12 * j + 123 - 10, 1, 0, LBox1, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 325, 12 * i + 12 * j + 121 - 10, 1, 0, LBox1, TRUE);
 				}
 				else {
-					DrawRotaGraph(24 * j - i * 24 + 310, 12 * i + 12 * j + 123, 1, 0, LBox1, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 325, 12 * i + 12 * j + 121, 1, 0, LBox1, TRUE);
 				}
-				map[i][j - 1] = -1;
 				break;
 			case 6://右下を向いたラージボックス
 				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
-					DrawRotaGraph(24 * j - i * 24 + 332, 12 * i + 12 * j + 122 - 10, 1, 0, LBox2, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 315, 12 * i + 12 * j + 119 - 10, 1, 0, LBox2, TRUE);
 				}
 				else {
-					DrawRotaGraph(24 * j - i * 24 + 332, 12 * i + 12 * j + 122, 1, 0, LBox2, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 315, 12 * i + 12 * j + 119, 1, 0, LBox2, TRUE);
 				}
-				map[i - 1][j] = -2;
 				break;
 			case 7://左奥を向いたラージボックス
 				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
-					DrawRotaGraph(24 * j - i * 24 + 343, 12 * i + 12 * j + 117 - 10, 1, 0, LBox3, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 315, 12 * i + 12 * j + 117 - 10, 1, 0, LBox3, TRUE);
 				}
 				else {
-					DrawRotaGraph(24 * j - i * 24 + 343, 12 * i + 12 * j + 117, 1, 0, LBox3, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 315, 12 * i + 12 * j + 117, 1, 0, LBox3, TRUE);
 				}
-				map[i - 1][j] = -3;
 				break;
 			case 8://右奥を向いたラージボックス
 				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
-					DrawRotaGraph(24 * j - i * 24 + 309, 12 * i + 12 * j + 117 - 10, 1, 0, LBox4, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 325, 12 * i + 12 * j + 117 - 10, 1, 0, LBox4, TRUE);
 				}
 				else {
-					DrawRotaGraph(24 * j - i * 24 + 309, 12 * i + 12 * j + 117, 1, 0, LBox4, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 325, 12 * i + 12 * j + 117, 1, 0, LBox4, TRUE);
 				}
-				map[i][j - 1] = -4;
 				break;
 			}
 			if (scene == 1)DrawRotaGraph(24 * selected[1] - selected[0] * 24 + 320, 12 * selected[0] + 12 * selected[1] + 150, 1, 0, select, TRUE);
 
 
-			}
 		}
 	}
 	if (scene == 0) {
@@ -129,7 +145,7 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 DWORD WINAPI MainThread(LPVOID)
 {
 	//初期化
-	int floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, omi, select, back;
+	int floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, omi, select, back;
 	int scene = 0;
 	bool releaseKeyF = true, releaseKeyB = true, releaseKeySPACE = true, releaseKeyUP = true, releaseKeyDOWN = true;
 	bool releaseKeyLEFT = true, releaseKeyRIGHT = true;
@@ -146,16 +162,20 @@ DWORD WINAPI MainThread(LPVOID)
 	Box1 = LoadGraph("./images/miniShelfLeft.png", TRUE);
 	Box2 = LoadGraph("./images/miniShelfRight.png", TRUE);
 	Box3 = LoadGraph("./images/miniShelfBack.png", TRUE);
-	LBox1 = LoadGraph("./images/miniLargeShelfLeft.png", TRUE);
-	LBox2 = LoadGraph("./images/miniLargeShelfRight.png", TRUE);
-	LBox3 = LoadGraph("./images/miniLargeShelfBackLeft.png", TRUE);
-	LBox4 = LoadGraph("./images/miniLargeShelfBackRight.png", TRUE);
+	LBox1 = LoadGraph("./images/miniLargeShelfLeft1.png", TRUE);
+	LBox2 = LoadGraph("./images/miniLargeShelfRight1.png", TRUE);
+	LBox3 = LoadGraph("./images/miniLargeShelfBackLeft1.png", TRUE);
+	LBox4 = LoadGraph("./images/miniLargeShelfBackRight1.png", TRUE);
+	LBox5 = LoadGraph("./images/miniLargeShelfLeft2.png", TRUE);
+	LBox6 = LoadGraph("./images/miniLargeShelfRight2.png", TRUE);
+	LBox7 = LoadGraph("./images/miniLargeShelfBackLeft2.png", TRUE);
+	LBox8 = LoadGraph("./images/miniLargeShelfBackRight2.png", TRUE);
 	omi = LoadGraph("./images/object_move_icon.png", TRUE);
 	select = LoadGraph("./images/selected.png", TRUE);
 	back = LoadGraph("./images/back.png", TRUE);
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
-		DrawScreen(floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, omi, back, select, map, scene, selected, move);
+		DrawScreen(floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, omi, back, select, map, scene, selected, move);
 		if (CheckHitKey(KEY_INPUT_F) && releaseKeyF) {
 			scene = 1;
 		}
