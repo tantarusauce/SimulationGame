@@ -136,6 +136,7 @@ DWORD WINAPI MainThread(LPVOID)
 				move = move ? false : true;
 			}
 			if (move) {
+				//オブジェクト移動
 				if (CheckHitKey(KEY_INPUT_UP) && releaseKeyUP) {
 					//上に移動
 
@@ -154,6 +155,29 @@ DWORD WINAPI MainThread(LPVOID)
 				if (CheckHitKey(KEY_INPUT_LEFT) && releaseKeyLEFT) {
 					//左に移動
 
+				}
+				releaseKeyLEFT = (CheckHitKey(KEY_INPUT_LEFT) == 0);
+			}
+			else {
+				//カーソル移動
+				if (CheckHitKey(KEY_INPUT_UP) && releaseKeyUP) {
+					//上に移動
+					selected[0]--;
+				}
+				releaseKeyUP = (CheckHitKey(KEY_INPUT_UP) == 0);
+				if (CheckHitKey(KEY_INPUT_DOWN) && releaseKeyDOWN) {
+					//下に移動
+					selected[0]++;
+				}
+				releaseKeyDOWN = (CheckHitKey(KEY_INPUT_DOWN) == 0);
+				if (CheckHitKey(KEY_INPUT_RIGHT) && releaseKeyRIGHT) {
+					//右に移動
+					selected[1]++;
+				}
+				releaseKeyRIGHT = (CheckHitKey(KEY_INPUT_RIGHT) == 0);
+				if (CheckHitKey(KEY_INPUT_LEFT) && releaseKeyLEFT) {
+					//左に移動
+					selected[1]--;
 				}
 				releaseKeyLEFT = (CheckHitKey(KEY_INPUT_LEFT) == 0);
 			}
