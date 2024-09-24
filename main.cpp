@@ -2,13 +2,16 @@
 #include "DxLib.h"
 volatile int EndFlag;
 
-void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int LBox5, int LBox6, int LBox7,int LBox8, int omi, int back, int select, int product_display, int map[10][10], int scene, int selected[2], bool move) {
+void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int LBox5, int LBox6, int LBox7,int LBox8, int omi, int back, int select, int product_display, int object_round_left, int map[10][10], int scene, int selected[2], bool move) {
 	if (scene == 0 || scene == 1) {
 		int i, j, k;
 		DrawRotaGraph(440, -62, 1, 0, Rwall, TRUE);
 		DrawRotaGraph(200, -62, 1, 0, Lwall, TRUE);
 		if (move && map[selected[0]][selected[1]] >= 1 && map[selected[0]][selected[1]] <= 8) {
 			DrawRotaGraph(100, 350, 0.4, 0, product_display, TRUE);
+		}
+		if (move && scene == 1) {
+			DrawRotaGraph(180, 350, 1, 0, object_round_left, TRUE);
 		}
 		for (i = 0; i < 10; i++) {
 			for (j = 0; j < 10; j++) {
@@ -133,8 +136,6 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 					break;
 				}
 				if (scene == 1)DrawRotaGraph(24 * selected[1] - selected[0] * 24 + 320, 12 * selected[0] + 12 * selected[1] + 150, 1, 0, select, TRUE);
-
-
 			}
 		}
 		if (scene == 0) {
@@ -159,7 +160,7 @@ DWORD WINAPI MainThread(LPVOID)
 {
 	//初期化
 	int floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, omi;
-	int select, back, product_display;
+	int select, back, product_display, object_round_left;
 	int scene = 0;
 	bool releaseKeyF = true, releaseKeyB = true, releaseKeySPACE = true, releaseKeyUP = true, releaseKeyDOWN = true,releaseKeyTurn = true;
 	bool releaseKeyLEFT = true, releaseKeyRIGHT = true, releaseKeyI = true;
@@ -188,9 +189,10 @@ DWORD WINAPI MainThread(LPVOID)
 	select = LoadGraph("./images/selected.png", TRUE);
 	back = LoadGraph("./images/back.png", TRUE);
 	product_display = LoadGraph("./images/product_display.png", TRUE);
+	object_round_left = LoadGraph("./images/object_round_left.png", TRUE);
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
-		DrawScreen(floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, omi, back, select, product_display, map, scene, selected, move);
+		DrawScreen(floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, omi, back, select, product_display, object_round_left, map, scene, selected, move);
 		if (CheckHitKey(KEY_INPUT_F) && releaseKeyF) {
 			scene = 1;
 		}
@@ -323,7 +325,7 @@ DWORD WINAPI MainThread(LPVOID)
 					}
 					releaseKeyLEFT = (CheckHitKey(KEY_INPUT_LEFT) == 0);
 
-					if (CheckHitKey(KEY_INPUT_T) && releaseKeyTurn) {
+					if (CheckHitKey(KEY_INPUT_Z) && releaseKeyTurn) {
 						int& currentObject = map[selected[0]][selected[1]];
 
 						// オブジェクトの向きを切り替える処理
@@ -367,7 +369,7 @@ DWORD WINAPI MainThread(LPVOID)
 						// 新しいオブジェクトをその位置に設定
 						map[selected[0]][selected[1]] = currentObject;
 					}
-					releaseKeyTurn = (CheckHitKey(KEY_INPUT_T) == 0);
+					releaseKeyTurn = (CheckHitKey(KEY_INPUT_Z) == 0);
 
 				}
 			}
