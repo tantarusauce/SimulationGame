@@ -2,8 +2,7 @@
 #include "DxLib.h"
 volatile int EndFlag;
 
-void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int LBox5, int LBox6, int LBox7,int LBox8, int omi, int back, int select, int product_display, int object_round_left, int map[10][10], int scene, int selected[2], bool move) {
-	if (scene == 0 || scene == 1) {
+void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int LBox5, int LBox6, int LBox7,int LBox8, int Box1f, int Box2f, int Box3f, int LBox1f, int LBox2f, int LBox3f, int LBox4f, int LBox5f, int LBox6f, int LBox7f, int LBox8f, int omi, int back, int select, int product_display, int object_round_left, int map[10][10], int scene, int selected[2], bool move) {
 		int i, j, k;
 		DrawRotaGraph(440, -62, 1, 0, Rwall, TRUE);
 		DrawRotaGraph(200, -62, 1, 0, Lwall, TRUE);
@@ -29,6 +28,18 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 				case 8://右奥を向いたラージボックス
 					map[i][j - 1] = -4;
 					break;
+				case 13://左下を向いたラージボックス
+					map[i][j - 1] = -5;
+					break;
+				case 14://右下を向いたラージボックス
+					map[i - 1][j] = -6;
+					break;
+				case 15://左奥を向いたラージボックス
+					map[i - 1][j] = -7;
+					break;
+				case 16://右奥を向いたラージボックス
+					map[i][j - 1] = -8;
+					break;
 					}
 				}
 			}
@@ -36,6 +47,38 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 		for (i = 0; i < 10; i++) {
 			for (j = 0; j < 10; j++) {
 				switch (map[i][j]) {
+				case -8:
+					if (selected[0] == i && selected[1] - 1 == j && scene == 1 && move) {
+						DrawRotaGraph(24 * j - i * 24 + 318, 12 * i + 12 * j + 130 - 10, 1, 0, LBox8f, TRUE);
+					}
+					else {
+						DrawRotaGraph(24 * j - i * 24 + 318, 12 * i + 12 * j + 130, 1, 0, LBox8f, TRUE);
+					}
+					break;
+				case -7:
+					if (selected[0] - 1 == i && selected[1] == j && scene == 1 && move) {
+						DrawRotaGraph(24 * j - i * 24 + 323, 12 * i + 12 * j + 130 - 10, 1, 0, LBox7f, TRUE);
+					}
+					else {
+						DrawRotaGraph(24 * j - i * 24 + 323, 12 * i + 12 * j + 130, 1, 0, LBox7f, TRUE);
+					}
+					break;
+				case -6:
+					if (selected[0] - 1 == i && selected[1] == j && scene == 1 && move) {
+						DrawRotaGraph(24 * j - i * 24 + 323, 12 * i + 12 * j + 133 - 10, 1, 0, LBox6f, TRUE);
+					}
+					else {
+						DrawRotaGraph(24 * j - i * 24 + 323, 12 * i + 12 * j + 133, 1, 0, LBox6f, TRUE);
+					}
+					break;
+				case -5:
+					if (selected[0] == i && selected[1] - 1 == j && scene == 1 && move) {
+						DrawRotaGraph(24 * j - i * 24 + 318, 12 * i + 12 * j + 135 - 10, 1, 0, LBox5f, TRUE);
+					}
+					else {
+						DrawRotaGraph(24 * j - i * 24 + 318, 12 * i + 12 * j + 135, 1, 0, LBox5f, TRUE);
+					}
+					break;
 				case -4:
 					if (selected[0] == i && selected[1] - 1 == j && scene == 1 && move) {
 						DrawRotaGraph(24 * j - i * 24 + 318, 12 * i + 12 * j + 130 - 10, 1, 0, LBox8, TRUE);
@@ -134,6 +177,64 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 						DrawRotaGraph(24 * j - i * 24 + 325, 12 * i + 12 * j + 117, 1, 0, LBox4, TRUE);
 					}
 					break;
+				case 9://左下を向いたボックス
+					if (selected[0] == i && selected[1] == j && scene == 1 && move) {
+						DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 117 - 10, 1, 0, Box1f, TRUE);
+					}
+					else {
+						DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 117, 1, 0, Box1f, TRUE);
+					}
+					break;
+				case 10://右下を向いたボックス
+					if (selected[0] == i && selected[1] == j && scene == 1 && move) {
+						DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 117 - 10, 1, 0, Box2f, TRUE);
+					}
+					else {
+						DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 117, 1, 0, Box2f, TRUE);
+					}
+					break;
+				case 11://右奥を向いたボックス
+				case 12://左奥を向いたボックス
+					if (selected[0] == i && selected[1] == j && scene == 1 && move) {
+						DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 117 - 10, 1, 0, Box3f, TRUE);
+					}
+					else {
+						DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 117, 1, 0, Box3f, TRUE);
+					}
+					break;
+				case 13://左下を向いたラージボックス
+					if (selected[0] == i && selected[1] == j && scene == 1 && move) {
+						DrawRotaGraph(24 * j - i * 24 + 325, 12 * i + 12 * j + 121 - 10, 1, 0, LBox1f, TRUE);
+					}
+					else {
+						DrawRotaGraph(24 * j - i * 24 + 325, 12 * i + 12 * j + 121, 1, 0, LBox1f, TRUE);
+					}
+					break;
+				case 14://右下を向いたラージボックス
+					if (selected[0] == i && selected[1] == j && scene == 1 && move) {
+						DrawRotaGraph(24 * j - i * 24 + 315, 12 * i + 12 * j + 119 - 10, 1, 0, LBox2f, TRUE);
+					}
+					else {
+						DrawRotaGraph(24 * j - i * 24 + 315, 12 * i + 12 * j + 119, 1, 0, LBox2f, TRUE);
+					}
+					break;
+				case 15://左奥を向いたラージボックス
+					if (selected[0] == i && selected[1] == j && scene == 1 && move) {
+						DrawRotaGraph(24 * j - i * 24 + 315, 12 * i + 12 * j + 117 - 10, 1, 0, LBox3f, TRUE);
+					}
+					else {
+						DrawRotaGraph(24 * j - i * 24 + 315, 12 * i + 12 * j + 117, 1, 0, LBox3f, TRUE);
+					}
+					break;
+				case 16://右奥を向いたラージボックス
+					if (selected[0] == i && selected[1] == j && scene == 1 && move) {
+						DrawRotaGraph(24 * j - i * 24 + 325, 12 * i + 12 * j + 117 - 10, 1, 0, LBox4f, TRUE);
+					}
+					else {
+						DrawRotaGraph(24 * j - i * 24 + 325, 12 * i + 12 * j + 117, 1, 0, LBox4f, TRUE);
+					}
+					break;
+
 				}
 				if (scene == 1)DrawRotaGraph(24 * selected[1] - selected[0] * 24 + 320, 12 * selected[0] + 12 * selected[1] + 150, 1, 0, select, TRUE);
 			}
@@ -144,22 +245,13 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 		else if (scene == 1) {
 			DrawRotaGraph(50, 30, 1, 0, back, TRUE);
 		}
-	}
-else if (scene == 2) {
-	//商品陳列画面（画面描画部分）
-
-
-
-
-
-	}
 }
 
 
 DWORD WINAPI MainThread(LPVOID)
 {
 	//初期化
-	int floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, omi;
+	int floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, omi;
 	int select, back, product_display, object_round_left;
 	int scene = 0;
 	bool releaseKeyF = true, releaseKeyB = true, releaseKeySPACE = true, releaseKeyUP = true, releaseKeyDOWN = true,releaseKeyTurn = true;
@@ -185,6 +277,17 @@ DWORD WINAPI MainThread(LPVOID)
 	LBox6 = LoadGraph("./images/miniLargeShelfRight2.png", TRUE);
 	LBox7 = LoadGraph("./images/miniLargeShelfBackLeft2.png", TRUE);
 	LBox8 = LoadGraph("./images/miniLargeShelfBackRight2.png", TRUE);
+	Box1f = LoadGraph("./images/miniShelfLeftfilled.png", TRUE);
+	Box2f = LoadGraph("./images/miniShelfRightfilled.png", TRUE);
+	Box3f = LoadGraph("./images/miniShelfBack.png", TRUE);
+	LBox1f = LoadGraph("./images/miniLargeShelfLeft1filled.png", TRUE);
+	LBox2f = LoadGraph("./images/miniLargeShelfRight1filled.png", TRUE);
+	LBox3f = LoadGraph("./images/miniLargeShelfBackLeft1.png", TRUE);
+	LBox4f = LoadGraph("./images/miniLargeShelfBackRight1.png", TRUE);
+	LBox5f = LoadGraph("./images/miniLargeShelfLeft2filled.png", TRUE);
+	LBox6f = LoadGraph("./images/miniLargeShelfRight2filled.png", TRUE);
+	LBox7f = LoadGraph("./images/miniLargeShelfBackLeft2.png", TRUE);
+	LBox8f = LoadGraph("./images/miniLargeShelfBackRight2.png", TRUE);
 	omi = LoadGraph("./images/object_move_icon.png", TRUE);
 	select = LoadGraph("./images/selected.png", TRUE);
 	back = LoadGraph("./images/back.png", TRUE);
@@ -192,7 +295,7 @@ DWORD WINAPI MainThread(LPVOID)
 	object_round_left = LoadGraph("./images/object_round_left.png", TRUE);
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
-		DrawScreen(floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, omi, back, select, product_display, object_round_left, map, scene, selected, move);
+		DrawScreen(floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, omi, back, select, product_display, object_round_left, map, scene, selected, move);
 		if (CheckHitKey(KEY_INPUT_F) && releaseKeyF) {
 			scene = 1;
 		}
@@ -208,7 +311,7 @@ DWORD WINAPI MainThread(LPVOID)
 			if (move) {
 				if (map[selected[0]][selected[1]] >= 1 && map[selected[0]][selected[1]] <= 8) {
 					if (CheckHitKey(KEY_INPUT_I) && releaseKeyI) {
-						scene = 2;
+						map[selected[0]][selected[1]] += 8;
 					}
 					releaseKeyI = (CheckHitKey(KEY_INPUT_I) == 0);
 				}
@@ -408,16 +511,7 @@ DWORD WINAPI MainThread(LPVOID)
 			
 		}
 		releaseKeyF = (CheckHitKey(KEY_INPUT_F) == 0);
-		releaseKeyB = (CheckHitKey(KEY_INPUT_B) == 0);
-		if (scene == 2) {
-			//商品陳列画面（処理部分）
-
-
-
-
-
-		}
-		
+		releaseKeyB = (CheckHitKey(KEY_INPUT_B) == 0);	
 	}
 	
 	
