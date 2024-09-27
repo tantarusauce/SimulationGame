@@ -328,14 +328,14 @@ DWORD WINAPI MainThread(LPVOID)
 						//è„Ç…à⁄ìÆ
 						if (selected[0] > 0) {
 							//à⁄ìÆêÊÇ…Ç‡ÇÃÇ™Ç»Ç©Ç¡ÇΩÇÁ
-							if ((map[selected[0] - 1][selected[1] - 1] == 0) && (map[selected[0] - 1][selected[1]] == 0) && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8)) {
+							if ((map[selected[0] - 1][selected[1] - 1] == 0) && (map[selected[0] - 1][selected[1]] == 0) && ((map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8))) {
 
 								map[selected[0] - 1][selected[1]] = map[selected[0]][selected[1]];
 								map[selected[0]][selected[1]] = 0;
 								map[selected[0]][selected[1] - 1] = 0;
 								selected[0]--;
 							}
-							else if (map[selected[0] - 2][selected[1]] == 0 && (map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3 || map[selected[0] - 1][selected[1]] == -6 || map[selected[0] - 1][selected[1]] == -7)) {
+							else if (map[selected[0] - 2][selected[1]] == 0 && ((map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3 || map[selected[0] - 1][selected[1]] == -6 || map[selected[0] - 1][selected[1]] == -7))) {
 								if (selected[0] > 1) {
 									map[selected[0] - 2][selected[1]] = map[selected[0] - 1][selected[1]];
 									map[selected[0] - 1][selected[1]] = map[selected[0]][selected[1]];
@@ -343,7 +343,7 @@ DWORD WINAPI MainThread(LPVOID)
 									selected[0]--;
 								}
 							}
-							else if (map[selected[0] - 1][selected[1]] == 0 && (map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 8))) {
+							else if (map[selected[0] - 1][selected[1]] == 0 && ((map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 8)))) {
 								map[selected[0] - 1][selected[1]] = map[selected[0]][selected[1]];
 								map[selected[0]][selected[1]] = 0;
 								selected[0]--;
@@ -355,19 +355,19 @@ DWORD WINAPI MainThread(LPVOID)
 						//â∫Ç…à⁄ìÆ(ç¿ïWÇXÇÊÇËè¨Ç≥Ç©Ç¡ÇΩÇÁìÆÇØÇÈÉà)
 						if (selected[0] < 9) {
 							//à⁄ìÆêÊÇ…Ç‡ÇÃÇ™Ç»Ç©Ç¡ÇΩÇÁ
-							if ((map[selected[0] + 1][selected[1] - 1] == 0) && (map[selected[0] + 1][selected[1]] == 0) && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8)) {
+							if ((map[selected[0] + 1][selected[1] - 1] == 0) && ((map[selected[0] + 1][selected[1]] == 0) && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8))) {
 								map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
 								map[selected[0]][selected[1]] = 0;
 								map[selected[0]][selected[1] - 1] = 0;
 								selected[0]++;
 							}
-							else if (map[selected[0] + 1][selected[1]] == 0 && (map[selected[0]][selected[1]] == 6 || map[selected[0]][selected[1]] == 7 || map[selected[0]][selected[1]] == 14 || map[selected[0]][selected[1]] == 15)) {
+							else if (map[selected[0] + 1][selected[1]] == 0 && ((map[selected[0]][selected[1]] == 6 || map[selected[0]][selected[1]] == 7 || map[selected[0]][selected[1]] == 14 || map[selected[0]][selected[1]] == 15))) {
 								map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
 								map[selected[0]][selected[1]] = map[selected[0] - 1][selected[1]];
 								map[selected[0] - 1][selected[1]] = 0;
 								selected[0]++;
 							}
-							else if (map[selected[0] + 1][selected[1]] == 0 && map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 8)) {
+							else if (map[selected[0] + 1][selected[1]] == 0 && (map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 8))) {
 								map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
 								map[selected[0]][selected[1]] = 0;
 								selected[0]++;
@@ -379,19 +379,19 @@ DWORD WINAPI MainThread(LPVOID)
 						//âEÇ…à⁄ìÆ
 						if (selected[1] < 9) {
 							//à⁄ìÆêÊÇ…Ç‡ÇÃÇ™Ç»Ç©Ç¡ÇΩÇÁ
-							if ((map[selected[0] - 1][selected[1] + 1] == 0) && (map[selected[0]][selected[1] + 1] == 0) && (map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3 || map[selected[0] - 1][selected[1]] == -6 || map[selected[0] - 1][selected[1]] == -7)) {
+							if ((map[selected[0] - 1][selected[1] + 1] == 0) && ((map[selected[0]][selected[1] + 1] == 0) && (map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3 || map[selected[0] - 1][selected[1]] == -6 || map[selected[0] - 1][selected[1]] == -7))) {
 								map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
 								map[selected[0]][selected[1]] = 0;
 								map[selected[0] - 1][selected[1]] = 0;
 								selected[1]++;
 							}
-							else if (map[selected[0]][selected[1] + 1] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8)) {
+							else if (map[selected[0]][selected[1] + 1] == 0 && ((map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8))) {
 								map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
 								map[selected[0]][selected[1]] = map[selected[0]][selected[1] - 1];
 								map[selected[0]][selected[1] - 1] = 0;
 								selected[1]++;
 							}
-							else if (map[selected[0]][selected[1] + 1] == 0 && map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 8)) {
+							else if (map[selected[0]][selected[1] + 1] == 0 && (map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 8))) {
 								map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
 								map[selected[0]][selected[1]] = 0;
 								selected[1]++;
@@ -403,14 +403,14 @@ DWORD WINAPI MainThread(LPVOID)
 						//ç∂Ç…à⁄ìÆ
 						if (selected[1] > 0) {
 							//à⁄ìÆêÊÇ…Ç‡ÇÃÇ™Ç»Ç©Ç¡ÇΩÇÁ
-							if ((map[selected[0] - 1][selected[1] - 1] == 0) && (map[selected[0]][selected[1] - 1] == 0) && (map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3 || map[selected[0] - 1][selected[1]] == -6 || map[selected[0] - 1][selected[1]] == -7)) {
+							if ((map[selected[0] - 1][selected[1] - 1] == 0) && ((map[selected[0]][selected[1] - 1] == 0) && (map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3 || map[selected[0] - 1][selected[1]] == -6 || map[selected[0] - 1][selected[1]] == -7))) {
 								map[selected[0]][selected[1] - 1] = map[selected[0]][selected[1]];
 								map[selected[0]][selected[1]] = 0;
 								map[selected[0] - 1][selected[1]] = 0;
 								selected[1]--;
 
 							}
-							else if (map[selected[0]][selected[1] - 2] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8)) {
+							else if (map[selected[0]][selected[1] - 2] == 0 && ((map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8))) {
 								if (selected[1] > 1) {
 									map[selected[0]][selected[1] - 2] = map[selected[0]][selected[1] - 1];
 									map[selected[0]][selected[1] - 1] = map[selected[0]][selected[1]];
@@ -418,7 +418,7 @@ DWORD WINAPI MainThread(LPVOID)
 									selected[1]--;
 								}
 							}
-							else if (map[selected[0]][selected[1] - 1] == 0 && map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 8)) {
+							else if (map[selected[0]][selected[1] - 1] == 0 && (map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 8))) {
 								map[selected[0]][selected[1] - 1] = map[selected[0]][selected[1]];
 								map[selected[0]][selected[1]] = 0;
 								selected[1]--;
