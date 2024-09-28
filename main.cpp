@@ -134,94 +134,94 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 				switch (humanmap[i][j]) {
 					//ワンピース女性
 				case 1:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 90, 0.5, 0, humanw1lb, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw1lb, TRUE);
 					break;
 				case 2:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 90, 0.5, 0, humanw1rb, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw1rb, TRUE);
 					break;
 				case 3:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 90, 0.5, 0, humanw1lf, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw1lf, TRUE);
 					break;
 				case 4:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 90, 0.5, 0, humanw1rf, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw1rf, TRUE);
 					break;
 					//ズボン女性店員
 				case 5:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanw2lb, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw2lb, TRUE);
 					break;
 				case 6:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanw2rb, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw2rb, TRUE);
 					break;
 				case 7:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanw2lf, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw2lf, TRUE);
 					break;
 				case 8:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanw2rf, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw2rf, TRUE);
 					break;
 					//スカート女性店員
 				case 9:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanw3lb, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw3lb, TRUE);
 					break;
 				case 10:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanw3rb, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw3rb, TRUE);
 					break;
 				case 11:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanw3lf, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw3lf, TRUE);
 					break;
 				case 12:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanw3rf, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw3rf, TRUE);
 					break;
 					//女学生
 				case 13:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanw4lb, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw4lb, TRUE);
 					break;
 				case 14:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanw4rb, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw4rb, TRUE);
 					break;
 				case 15:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanw4lf, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw4lf, TRUE);
 					break;
 				case 16:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanw4rf, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanw4rf, TRUE);
 					break;
 					//私服男性1
 				case 17:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanm1lb, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanm1lb, TRUE);
 					break;
 				case 18:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanm1rb, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanm1rb, TRUE);
 					break;
 				case 19:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanm1lf, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanm1lf, TRUE);
 					break;
 				case 20:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanm1rf, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanm1rf, TRUE);
 					break;
 					//私服男性2
 				case 21:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanm2lb, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanm2lb, TRUE);
 					break;
 				case 22:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanm2rb, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanm2rb, TRUE);
 					break;
 				case 23:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanm2lf, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanm2lf, TRUE);
 					break;
 				case 24:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanm2rf, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanm2rf, TRUE);
 					break;
 					//男性店員
 				case 25:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanm3lb, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanm3lb, TRUE);
 					break;
 				case 26:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanm3rb, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanm3rb, TRUE);
 					break;
 				case 27:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanm3lf, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanm3lf, TRUE);
 					break;
 				case 28:
-					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 85, 0.5, 0, humanm3rf, TRUE);
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 120, 0.5, 0, humanm3rf, TRUE);
 					break;
 				}
 				break;
@@ -377,7 +377,7 @@ DWORD WINAPI MainThread(LPVOID)
 	map[3][3] = 2;
 	map[3][1] = 8;
 	map[9][8] = 17;
-	humanmap[5][6] = 5;
+	humanmap[5][6] = 10;
 	//humanmap[5][6] = 9;
 	//humanmap[5][6] = 25;
 
@@ -458,7 +458,7 @@ DWORD WINAPI MainThread(LPVOID)
 				//上に移動
 				if (humanselected[0] > 0) {
 					//移動先にものがなかったら
-					if (map[humanselected[0] - 1][humanselected[1]] == 0 && map[humanselected[0]][humanselected[1]] == 0 && humanmap[humanselected[0]][humanselected[1]] <= 1) {
+					if (map[humanselected[0] - 1][humanselected[1]] == 0) {
 						humanmap[humanselected[0] - 1][humanselected[1]] = humanmap[humanselected[0]][humanselected[1]];
 						humanmap[humanselected[0]][humanselected[1]] = 0;
 						humanselected[0]--;
@@ -470,7 +470,7 @@ DWORD WINAPI MainThread(LPVOID)
 				//下に移動(座標９より小さかったら動けるヨ)
 				if (humanselected[0] < 9) {
 					//移動先にものがなかったら
-					if (map[humanselected[0] + 1][humanselected[1]] == 0 && map[humanselected[0]][humanselected[1]] == 0 && humanmap[humanselected[0]][humanselected[1]] <= 1) {
+					if (map[humanselected[0] + 1][humanselected[1]] == 0) {
 						humanmap[humanselected[0] + 1][humanselected[1]] = humanmap[humanselected[0]][humanselected[1]];
 						humanmap[humanselected[0]][humanselected[1]] = 0;
 						humanselected[0]++;
@@ -482,28 +482,26 @@ DWORD WINAPI MainThread(LPVOID)
 				//右に移動
 				if (humanselected[1] < 9) {
 					//移動先にものがなかったら
-					if (map[selected[0]][selected[1] + 1] == 0 && map[selected[0]][selected[1]] == 0 && humanmap[humanselected[0]][humanselected[1]] <= 1) {
-						if (map[humanselected[0]][humanselected[1] + 1] == 0 && map[humanselected[0]][humanselected[1]] == 0 && humanmap[humanselected[0]][humanselected[1]] <= 1) {
-							humanmap[humanselected[0]][humanselected[1] + 1] = humanmap[humanselected[0]][humanselected[1]];
-							humanmap[humanselected[0]][humanselected[1]] = 0;
-							humanselected[1]++;
-						}
+					if (map[humanselected[0]][humanselected[1] + 1] == 0) {
+						humanmap[humanselected[0]][humanselected[1] + 1] = humanmap[humanselected[0]][humanselected[1]];
+						humanmap[humanselected[0]][humanselected[1]] = 0;
+						humanselected[1]++;
 					}
 				}
-				releaseKeyRIGHT = (CheckHitKey(KEY_INPUT_RIGHT) == 0);
-				if (CheckHitKey(KEY_INPUT_LEFT) && releaseKeyLEFT) {
-					//左に移動
-					if (humanselected[1] > 0) {
-						//移動先にものがなかったら
-						if (map[humanselected[0]][humanselected[1] - 1] == 0 && map[humanselected[0]][humanselected[1]] == 0 && humanmap[humanselected[0]][humanselected[1]] <= 1) {
-							humanmap[humanselected[0]][humanselected[1] - 1] = humanmap[humanselected[0]][humanselected[1]];
-							humanmap[humanselected[0]][humanselected[1]] = 0;
-							humanselected[1]--;
-						}
-					}
-				}
-				releaseKeyLEFT = (CheckHitKey(KEY_INPUT_LEFT) == 0);
 			}
+			releaseKeyRIGHT = (CheckHitKey(KEY_INPUT_RIGHT) == 0);
+			if (CheckHitKey(KEY_INPUT_LEFT) && releaseKeyLEFT) {
+				//左に移動
+				if (humanselected[1] > 0) {
+					//移動先にものがなかったら
+					if (map[humanselected[0]][humanselected[1] - 1] == 0) {
+						humanmap[humanselected[0]][humanselected[1] - 1] = humanmap[humanselected[0]][humanselected[1]];
+						humanmap[humanselected[0]][humanselected[1]] = 0;
+						humanselected[1]--;
+					}
+				}
+			}
+			releaseKeyLEFT = (CheckHitKey(KEY_INPUT_LEFT) == 0);
 		}
 		else if (scene == 1) {
 				//オブジェクト移動画面
