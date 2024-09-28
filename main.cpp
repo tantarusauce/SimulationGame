@@ -2,7 +2,7 @@
 #include "DxLib.h"
 volatile int EndFlag;
 
-void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int LBox5, int LBox6, int LBox7, int LBox8, int Box1f, int Box2f, int Box3f, int LBox1f, int LBox2f, int LBox3f, int LBox4f, int LBox5f, int LBox6f, int LBox7f, int LBox8f, int omi, int back, int select, int product_display, int object_round_left, int map[10][10], int scene, int selected[2], bool move) {
+void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int LBox5, int LBox6, int LBox7, int LBox8, int Box1f, int Box2f, int Box3f, int LBox1f, int LBox2f, int LBox3f, int LBox4f, int LBox5f, int LBox6f, int LBox7f, int LBox8f, int counter, int omi, int back, int select, int product_display, int object_round_left, int map[10][10], int scene, int selected[2], bool move) {
 	int i, j, k;
 	DrawRotaGraph(440, -62, 1, 0, Rwall, TRUE);
 	DrawRotaGraph(200, -62, 1, 0, Lwall, TRUE);
@@ -234,7 +234,15 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 					DrawRotaGraph(24 * j - i * 24 + 325, 12 * i + 12 * j + 117, 1, 0, LBox4f, TRUE);
 				}
 				break;
+			case 17:
+				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150 - 10, 1, 0, counter, TRUE);
+				}
+				else {
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, counter, TRUE);
+				}
 
+				break;
 			}
 			if (scene == 1)DrawRotaGraph(24 * selected[1] - selected[0] * 24 + 320, 12 * selected[0] + 12 * selected[1] + 150, 1, 0, select, TRUE);
 		}
@@ -251,7 +259,8 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 DWORD WINAPI MainThread(LPVOID)
 {
 	//初期化
-	int floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, omi;
+	int floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, counter, omi;
+	int humanw1lb, humanw1rb, humanw1lf, humanw1rf, humanw2lb, humanw2rb, humanw2lf, humanw2rf, humanw3lb, humanw3rb, humanw3lf, humanw3rf, humanw4lb, humanw4rb, humanw4lf, humanw4rf, humanm1lb, humanm1rb, humanm1lf, humanm1rf, humanm2lb, humanm2rb, humanm2lf, humanm2rf, humanm3lb, humanm3rb, humanm3lf, humanm3rf;
 	int select, back, product_display, object_round_left;
 	int scene = 0;
 	bool releaseKeyF = true, releaseKeyB = true, releaseKeySPACE = true, releaseKeyUP = true, releaseKeyDOWN = true, releaseKeyTurn = true;
@@ -261,6 +270,7 @@ DWORD WINAPI MainThread(LPVOID)
 	int selected[2] = { 0, 0 };
 	map[3][3] = 2;
 	map[3][1] = 8;
+	map[8][8] = 17;
 
 
 	floor = LoadGraph("./images/floor.png", TRUE);
@@ -288,6 +298,35 @@ DWORD WINAPI MainThread(LPVOID)
 	LBox6f = LoadGraph("./images/miniLargeShelfRight2filled.png", TRUE);
 	LBox7f = LoadGraph("./images/miniLargeShelfBackLeft2.png", TRUE);
 	LBox8f = LoadGraph("./images/miniLargeShelfBackRight2.png", TRUE);
+	counter = LoadGraph("./images/counter_right_right.png", TRUE);
+	humanw1lb = LoadGraph("./images/human/woman/woman_one-piece/woman_left_back_one-piece.png", TRUE);
+	humanw1rb = LoadGraph("./images/human/woman/woman_one-piece/woman_right_back_one-piece.png", TRUE);
+	humanw1lf = LoadGraph("./images/human/woman/woman_one-piece/woman_left_front_one-piece.png", TRUE);
+	humanw1rf = LoadGraph("./images/human/woman/woman_one-piece/woman_right_front_one-piece.png", TRUE);
+	humanw2lb = LoadGraph("./images/human/woman/woman_pants_shop/woman_left_back_pants_shop.png", TRUE);
+	humanw2rb = LoadGraph("./images/human/woman/woman_pants_shop/woman_right_back_pants_shop.png", TRUE);
+	humanw2lf = LoadGraph("./images/human/woman/woman_pants_shop/woman_left_front_pants_shop.png", TRUE);
+	humanw2rf = LoadGraph("./images/human/woman/woman_pants_shop/woman_right_front_pants_shop.png", TRUE);
+	humanw3lb = LoadGraph("./images/human/woman/woman_skirt_shop/woman_left_back_skirt_shop.png", TRUE);
+	humanw3rb = LoadGraph("./images/human/woman/woman_skirt_shop/woman_right_back_skirt_shop.png", TRUE);
+	humanw3lf = LoadGraph("./images/human/woman/woman_skirt_shop/woman_left_front_skirt_shop.png", TRUE);
+	humanw3rf = LoadGraph("./images/human/woman/woman_skirt_shop/woman_right_front_skirt_shop.png", TRUE);
+	humanw4lb = LoadGraph("./images/human/woman/woman_student/woman_student_left_back.png", TRUE);
+	humanw4rb = LoadGraph("./images/human/woman/woman_student/woman_student_right_back.png", TRUE);
+	humanw4lf = LoadGraph("./images/human/woman/woman_student/woman_student_left_fornt.png", TRUE);
+	humanw4rf = LoadGraph("./images/human/woman/woman_student/woman_student_right_front.png", TRUE);
+	humanm1lb = LoadGraph("./images/human/man/man_1/man_left_back_1.png", TRUE);
+	humanm1rb = LoadGraph("./images/human/man/man_1/man_right_back_1.png", TRUE);
+	humanm1lf = LoadGraph("./images/human/man/man_1/man_left_front_1.png", TRUE);
+	humanm1rf = LoadGraph("./images/human/man/man_1/man_right_front_1.png", TRUE);
+	humanm2lb = LoadGraph("./images/human/man/man_2/man_left_back_2.png", TRUE);
+	humanm2rb = LoadGraph("./images/human/man/man_2/man_right_back_2.png", TRUE);
+	humanm2lf = LoadGraph("./images/human/man/man_2/man_left_front_2.png", TRUE);
+	humanm2rf = LoadGraph("./images/human/man/man_2/man_right_front_2.png", TRUE);
+	humanm3lb = LoadGraph("./images/human/man/man_shop/man_left_back_shop.png", TRUE);
+	humanm3rb = LoadGraph("./images/human/man/man_shop/man_right_back_shop.png", TRUE);
+	humanm3lf = LoadGraph("./images/human/man/man_shop/man_left_front_shop.png", TRUE);
+	humanm3rf = LoadGraph("./images/human/man/man_shop/man_right_flont_shop.png", TRUE);
 	omi = LoadGraph("./images/object_move_icon.png", TRUE);
 	select = LoadGraph("./images/selected.png", TRUE);
 	back = LoadGraph("./images/back.png", TRUE);
@@ -295,7 +334,7 @@ DWORD WINAPI MainThread(LPVOID)
 	object_round_left = LoadGraph("./images/object_round_left.png", TRUE);
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
-		DrawScreen(floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, omi, back, select, product_display, object_round_left, map, scene, selected, move);
+		DrawScreen(floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, counter, omi, back, select, product_display, object_round_left, map, scene, selected, move);
 		if (CheckHitKey(KEY_INPUT_F) && releaseKeyF) {
 			scene = 1;
 		}
@@ -498,9 +537,9 @@ DWORD WINAPI MainThread(LPVOID)
 								map[selected[0] - 1][selected[1]] = -8;
 								break; // ラージボックス右奥→左奥
 							}
-						
-						
-					}
+
+
+						}
 
 						// 新しいオブジェクトをその位置に設定
 						map[selected[0]][selected[1]] = currentObject;
@@ -549,7 +588,7 @@ DWORD WINAPI MainThread(LPVOID)
 
 
 	return 0;
-	}
+}
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
