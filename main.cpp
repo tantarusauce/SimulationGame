@@ -707,7 +707,7 @@ DWORD WINAPI MainThread(LPVOID)
 				if (move) {
 					//1*1‚Ì’I‚Ì’Ç‰Á
 					if (CheckHitKey(KEY_INPUT_G) && releaseKeyG) {
-						if (map[selected[0]][selected[1]] == 0) {
+						if (map[selected[0]][selected[1]] == 0 && humanmap[selected[0]][selected[1]] == 0) {
 							map[selected[0]][selected[1]] = 1;
 						}
 					}
@@ -716,7 +716,9 @@ DWORD WINAPI MainThread(LPVOID)
 					if (CheckHitKey(KEY_INPUT_H) && releaseKeyH) {
 						if (selected[1] > 0) {
 							if (map[selected[0]][selected[1] - 1] == 0 && map[selected[0]][selected[1]] == 0) {
-								map[selected[0]][selected[1]] = 5;
+								if (humanmap[selected[0]][selected[1] - 1] == 0 && humanmap[selected[0]][selected[1]] == 0) {
+									map[selected[0]][selected[1]] = 5;
+								}
 							}
 						}
 					}
