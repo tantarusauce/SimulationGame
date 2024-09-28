@@ -864,7 +864,7 @@ DWORD WINAPI MainThread(LPVOID)
 							case 4: currentObject = 1; break; // 左奥→左下
 							case 12: currentObject = 9; break; // 左下→右下
 							case 5:
-								if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0)) {
+								if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0) && humanmap[selected[0] - 1][selected[1]] == 0) {
 									currentObject = 6;
 									map[selected[0]][selected[1] - 1] = 0;
 									map[selected[0] - 1][selected[1]] = -1;
@@ -872,7 +872,7 @@ DWORD WINAPI MainThread(LPVOID)
 									break; // ラージボックス左下→右下
 								}
 							case 13:
-								if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0)) {
+								if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0) && humanmap[selected[0] - 1][selected[1]] == 0) {
 									currentObject = 14;
 									map[selected[0]][selected[1] - 1] = 0;
 									map[selected[0] - 1][selected[1]] = -5;
@@ -880,42 +880,42 @@ DWORD WINAPI MainThread(LPVOID)
 									break; // ラージボックス左下→右下
 								}
 							case 6:
-								if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0)) {
+								if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0) && humanmap[selected[0]][selected[1] - 1] == 0) {
 									currentObject = 8;
 									map[selected[0] - 1][selected[1]] = 0;
 									map[selected[0]][selected[1] - 1] = -2;
 									break; // ラージボックス右下→右奥
 								}
 							case 14:
-								if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0)) {
+								if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0) && humanmap[selected[0]][selected[1] - 1] == 0) {
 									currentObject = 16;
 									map[selected[0] - 1][selected[1]] = 0;
 									map[selected[0]][selected[1] - 1] = -6;
 									break; // ラージボックス右下→右奥
 								}
 							case 7:
-								if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0)) {
+								if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0) && humanmap[selected[0]][selected[1] - 1] == 0) {
 									currentObject = 5;
 									map[selected[0] - 1][selected[1]] = 0;
 									map[selected[0]][selected[1] - 1] = -3;
 									break; // ラージボックス左奥→左下
 								}
 							case 15:
-								if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0)) {
+								if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0) && humanmap[selected[0]][selected[1] - 1] == 0) {
 									currentObject = 13;
 									map[selected[0] - 1][selected[1]] = 0;
 									map[selected[0]][selected[1] - 1] = -7;
 									break; // ラージボックス左奥→左下
 								}
 							case 8:
-								if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0)) {
+								if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0) && humanmap[selected[0] - 1][selected[1]] == 0) {
 									currentObject = 7;
 									map[selected[0]][selected[1] - 1] = 0;
 									map[selected[0] - 1][selected[1]] = -4;
 									break; // ラージボックス右奥→左奥
 								}
 							case 16:
-								if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0)) {
+								if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0) && humanmap[selected[0] - 1][selected[1]] == 0) {
 									currentObject = 15;
 									map[selected[0]][selected[1] - 1] = 0;
 									map[selected[0] - 1][selected[1]] = -8;
