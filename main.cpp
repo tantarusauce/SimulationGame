@@ -488,6 +488,7 @@ DWORD WINAPI MainThread(LPVOID)
 	int scene = 0, money = 0;
 	bool releaseKeyF = true, releaseKeyB = true, releaseKeySPACE = true, releaseKeyUP = true, releaseKeyDOWN = true, releaseKeyTurn = true;
 	bool releaseKeyLEFT = true, releaseKeyRIGHT = true, releaseKeyI = true, releaseKeyC = true, releaseKeyG = true, releaseKeyH = true;
+	bool releaseKeyD = true;
 	bool sceneF = false, move = false, waitting_guest = true;
 	std::list<int> money_gest{5,55,555};
 	int map[10][10]{};
@@ -703,12 +704,14 @@ DWORD WINAPI MainThread(LPVOID)
 				if (CheckHitKey(KEY_INPUT_SPACE) && releaseKeySPACE) {
 					move = move ? false : true;
 				}
+				//1*1‚Ì’I‚Ì’Ç‰Á
 				if (CheckHitKey(KEY_INPUT_G) && releaseKeyG) {
 					if (map[selected[0]][selected[1]] == 0) {
 						map[selected[0]][selected[1]] = 1;
 					}
 				}
 				releaseKeyG = (CheckHitKey(KEY_INPUT_G) == 0);
+				//1*2‚Ì’I‚Ì’Ç‰Á
 				if (CheckHitKey(KEY_INPUT_H) && releaseKeyH) {
 					if (selected[1] > 0) {
 						if (map[selected[0]][selected[1] - 1] == 0 && map[selected[0]][selected[1]] == 0) {
@@ -717,6 +720,24 @@ DWORD WINAPI MainThread(LPVOID)
 					}
 				}
 				releaseKeyH = (CheckHitKey(KEY_INPUT_H) == 0);
+				//’I‚Ìíœ
+				if (CheckHitKey(KEY_INPUT_D) && releaseKeyD) {
+					if (map[selected[0]][selected[1]] == 0) {
+						
+					}
+					else if (map[selected[0]][selected[1]] >= 1 && map[selected[0]][selected[1]] <= 4 || map[selected[0]][selected[1]] >= 9 && map[selected[0]][selected[1]] <= 12) {
+						map[selected[0]][selected[1]] = 0;
+					}
+					else if (map[selected[0]][selected[1]] == 5 || map[selected[0]][selected[1]] == 8 || map[selected[0]][selected[1]] == 9 || map[selected[0]][selected[1]] == 12){
+						map[selected[0]][selected[1] - 1] = 0;
+						map[selected[0]][selected[1]] = 0;
+					}
+					else {
+						map[selected[0] - 1][selected[1]] = 0;
+						map[selected[0]][selected[1]] = 0;
+					}
+				}
+				
 				if (move) {
 					if (map[selected[0]][selected[1]] >= 1 && map[selected[0]][selected[1]] <= 8) {
 						if (CheckHitKey(KEY_INPUT_I) && releaseKeyI) {
