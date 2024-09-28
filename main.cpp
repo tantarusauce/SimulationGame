@@ -779,22 +779,24 @@ DWORD WINAPI MainThread(LPVOID)
 							//â∫Ç…à⁄ìÆ(ç¿ïWÇXÇÊÇËè¨Ç≥Ç©Ç¡ÇΩÇÁìÆÇØÇÈ)
 							if (selected[0] < 9) {
 								//à⁄ìÆêÊÇ…Ç‡ÇÃÇ™Ç»Ç©Ç¡ÇΩÇÁ
-								if (map[selected[0] + 1][selected[1] - 1] == 0 && map[selected[0] + 1][selected[1]] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8) && humanmap[selected[0] + 1][selected[1] - 1] == 0 && humanmap[selected[0] + 1][selected[1]] == 0) {
-									map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
-									map[selected[0]][selected[1]] = 0;
-									map[selected[0]][selected[1] - 1] = 0;
-									selected[0]++;
-								}
-								else if (map[selected[0] + 1][selected[1]] == 0 && (map[selected[0]][selected[1]] == 6 || map[selected[0]][selected[1]] == 7 || map[selected[0]][selected[1]] == 14 || map[selected[0]][selected[1]] == 15) && humanmap[selected[0] + 1][selected[1]] == 0) {
-									map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
-									map[selected[0]][selected[1]] = map[selected[0] - 1][selected[1]];
-									map[selected[0] - 1][selected[1]] = 0;
-									selected[0]++;
-								}
-								else if (map[selected[0] + 1][selected[1]] == 0 && (map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 9)) && humanmap[selected[0] + 1][selected[1]] == 0) {
-									map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
-									map[selected[0]][selected[1]] = 0;
-									selected[0]++;
+								if (map[selected[0] + 1][selected[1]] == map[7][9]) {
+									if (map[selected[0] + 1][selected[1] - 1] == 0 && map[selected[0] + 1][selected[1]] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8) && humanmap[selected[0] + 1][selected[1] - 1] == 0 && humanmap[selected[0] + 1][selected[1]] == 0) {
+										map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
+										map[selected[0]][selected[1]] = 0;
+										map[selected[0]][selected[1] - 1] = 0;
+										selected[0]++;
+									}
+									else if (map[selected[0] + 1][selected[1]] == 0 && (map[selected[0]][selected[1]] == 6 || map[selected[0]][selected[1]] == 7 || map[selected[0]][selected[1]] == 14 || map[selected[0]][selected[1]] == 15) && humanmap[selected[0] + 1][selected[1]] == 0) {
+										map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
+										map[selected[0]][selected[1]] = map[selected[0] - 1][selected[1]];
+										map[selected[0] - 1][selected[1]] = 0;
+										selected[0]++;
+									}
+									else if (map[selected[0] + 1][selected[1]] == 0 && (map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 9)) && humanmap[selected[0] + 1][selected[1]] == 0) {
+										map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
+										map[selected[0]][selected[1]] = 0;
+										selected[0]++;
+									}
 								}
 							}
 						}
@@ -809,7 +811,7 @@ DWORD WINAPI MainThread(LPVOID)
 									map[selected[0] - 1][selected[1]] = 0;
 									selected[1]++;
 								}
-								else if (map[selected[0]][selected[1] + 1] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8) && humanmap[selected[0]][selected[1] + 1] == 0) {
+								else if (map[selected[0]][selected[1] + 1] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8)&& humanmap[selected[0]][selected[1] + 1] == 0) {
 									map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
 									map[selected[0]][selected[1]] = map[selected[0]][selected[1] - 1];
 									map[selected[0]][selected[1] - 1] = 0;
