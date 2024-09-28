@@ -373,10 +373,13 @@ DWORD WINAPI MainThread(LPVOID)
 	int map[10][10]{};
 	int humanmap[10][10]{};
 	int selected[2] = { 0, 0 };
+	int humanselected[2] = { 5, 6 }; //humanmapと同じにしておく
 	map[3][3] = 2;
 	map[3][1] = 8;
 	map[9][8] = 17;
-	humanmap[5][6] = 1;
+	humanmap[5][6] = 5;
+	//humanmap[5][6] = 9;
+	//humanmap[5][6] = 25;
 
 
 	floor = LoadGraph("./images/floor.png", TRUE);
@@ -449,249 +452,300 @@ DWORD WINAPI MainThread(LPVOID)
 			scene = 0;
 			move = false;
 		}
-		if (scene == 1) {
-			//オブジェクト移動画面
-			if (CheckHitKey(KEY_INPUT_SPACE) && releaseKeySPACE) {
-				move = move ? false : true;
-			}
-			if (move) {
-				if (map[selected[0]][selected[1]] >= 1 && map[selected[0]][selected[1]] <= 8) {
-					if (CheckHitKey(KEY_INPUT_I) && releaseKeyI) {
-						map[selected[0]][selected[1]] += 8;
+		if (scene == 0) {
+			//人移動
+			if (CheckHitKey(KEY_INPUT_UP) && releaseKeyUP) {
+				//上に移動
+				if (humanselected[0] > 0) {
+					//移動先にものがなかったら
+					if (map[humanselected[0] - 1][humanselected[1]] == 0 && map[humanselected[0]][humanselected[1]] == 0 && humanmap[humanselected[0]][humanselected[1]] <= 1) {
+						humanmap[humanselected[0] - 1][humanselected[1]] = humanmap[humanselected[0]][humanselected[1]];
+						humanmap[humanselected[0]][humanselected[1]] = 0;
+						humanselected[0]--;
 					}
-					releaseKeyI = (CheckHitKey(KEY_INPUT_I) == 0);
 				}
-				if (map[selected[0]][selected[1]] != 0) {
-					if (map[selected[0]][selected[1]] == -1 || map[selected[0]][selected[1]] == -4 || map[selected[0]][selected[1]] == -5 || map[selected[0]][selected[1]] == -8) {
-						selected[1]++;
+			}
+			releaseKeyUP = (CheckHitKey(KEY_INPUT_UP) == 0);
+			if (CheckHitKey(KEY_INPUT_DOWN) && releaseKeyDOWN) {
+				//下に移動(座標９より小さかったら動けるヨ)
+				if (humanselected[0] < 9) {
+					//移動先にものがなかったら
+					if (map[humanselected[0] + 1][humanselected[1]] == 0 && map[humanselected[0]][humanselected[1]] == 0 && humanmap[humanselected[0]][humanselected[1]] <= 1) {
+						humanmap[humanselected[0] + 1][humanselected[1]] = humanmap[humanselected[0]][humanselected[1]];
+						humanmap[humanselected[0]][humanselected[1]] = 0;
+						humanselected[0]++;
 					}
-					if (map[selected[0]][selected[1]] == -2 || map[selected[0]][selected[1]] == -3 || map[selected[0]][selected[1]] == -6 || map[selected[0]][selected[1]] == -7) {
-						selected[0]++;
+				}
+			}
+			releaseKeyDOWN = (CheckHitKey(KEY_INPUT_DOWN) == 0);
+			if (CheckHitKey(KEY_INPUT_RIGHT) && releaseKeyRIGHT) {
+				//右に移動
+				if (humanselected[1] < 9) {
+					//移動先にものがなかったら
+					if (map[selected[0]][selected[1] + 1] == 0 && map[selected[0]][selected[1]] == 0 && humanmap[humanselected[0]][humanselected[1]] <= 1) {
+						if (map[humanselected[0]][humanselected[1] + 1] == 0 && map[humanselected[0]][humanselected[1]] == 0 && humanmap[humanselected[0]][humanselected[1]] <= 1) {
+							humanmap[humanselected[0]][humanselected[1] + 1] = humanmap[humanselected[0]][humanselected[1]];
+							humanmap[humanselected[0]][humanselected[1]] = 0;
+							humanselected[1]++;
+						}
 					}
+				}
+				releaseKeyRIGHT = (CheckHitKey(KEY_INPUT_RIGHT) == 0);
+				if (CheckHitKey(KEY_INPUT_LEFT) && releaseKeyLEFT) {
+					//左に移動
+					if (humanselected[1] > 0) {
+						//移動先にものがなかったら
+						if (map[humanselected[0]][humanselected[1] - 1] == 0 && map[humanselected[0]][humanselected[1]] == 0 && humanmap[humanselected[0]][humanselected[1]] <= 1) {
+							humanmap[humanselected[0]][humanselected[1] - 1] = humanmap[humanselected[0]][humanselected[1]];
+							humanmap[humanselected[0]][humanselected[1]] = 0;
+							humanselected[1]--;
+						}
+					}
+				}
+				releaseKeyLEFT = (CheckHitKey(KEY_INPUT_LEFT) == 0);
+			}
+		}
+		else if (scene == 1) {
+				//オブジェクト移動画面
+				if (CheckHitKey(KEY_INPUT_SPACE) && releaseKeySPACE) {
+					move = move ? false : true;
+				}
+				if (move) {
+					if (map[selected[0]][selected[1]] >= 1 && map[selected[0]][selected[1]] <= 8) {
+						if (CheckHitKey(KEY_INPUT_I) && releaseKeyI) {
+							map[selected[0]][selected[1]] += 8;
+						}
+						releaseKeyI = (CheckHitKey(KEY_INPUT_I) == 0);
+					}
+					if (map[selected[0]][selected[1]] != 0) {
+						if (map[selected[0]][selected[1]] == -1 || map[selected[0]][selected[1]] == -4 || map[selected[0]][selected[1]] == -5 || map[selected[0]][selected[1]] == -8) {
+							selected[1]++;
+						}
+						if (map[selected[0]][selected[1]] == -2 || map[selected[0]][selected[1]] == -3 || map[selected[0]][selected[1]] == -6 || map[selected[0]][selected[1]] == -7) {
+							selected[0]++;
+						}
 
-					//オブジェクト移動
-					if (CheckHitKey(KEY_INPUT_UP) && releaseKeyUP) {
-						//上に移動
-						if (selected[0] > 0) {
-							//移動先にものがなかったら
-							if (map[selected[0] - 1][selected[1] - 1] == 0 && map[selected[0] - 1][selected[1]] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8)) {
-								map[selected[0] - 1][selected[1]] = map[selected[0]][selected[1]];
-								map[selected[0]][selected[1]] = 0;
-								map[selected[0]][selected[1] - 1] = 0;
-								selected[0]--;
-							}
-							else if (map[selected[0] - 2][selected[1]] == 0 && (map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3 || map[selected[0] - 1][selected[1]] == -6 || map[selected[0] - 1][selected[1]] == -7)) {
-								if (selected[0] > 1) {
-									map[selected[0] - 2][selected[1]] = map[selected[0] - 1][selected[1]];
+						//オブジェクト移動
+						if (CheckHitKey(KEY_INPUT_UP) && releaseKeyUP) {
+							//上に移動
+							if (selected[0] > 0) {
+								//移動先にものがなかったら
+								if (map[selected[0] - 1][selected[1] - 1] == 0 && map[selected[0] - 1][selected[1]] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8)) {
+									map[selected[0] - 1][selected[1]] = map[selected[0]][selected[1]];
+									map[selected[0]][selected[1]] = 0;
+									map[selected[0]][selected[1] - 1] = 0;
+									selected[0]--;
+								}
+								else if (map[selected[0] - 2][selected[1]] == 0 && (map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3 || map[selected[0] - 1][selected[1]] == -6 || map[selected[0] - 1][selected[1]] == -7)) {
+									if (selected[0] > 1) {
+										map[selected[0] - 2][selected[1]] = map[selected[0] - 1][selected[1]];
+										map[selected[0] - 1][selected[1]] = map[selected[0]][selected[1]];
+										map[selected[0]][selected[1]] = 0;
+										selected[0]--;
+									}
+								}
+								else if (map[selected[0] - 1][selected[1]] == 0 && ((map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 9)))) {
 									map[selected[0] - 1][selected[1]] = map[selected[0]][selected[1]];
 									map[selected[0]][selected[1]] = 0;
 									selected[0]--;
 								}
 							}
-							else if (map[selected[0] - 1][selected[1]] == 0 && ((map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 9)))) {
-								map[selected[0] - 1][selected[1]] = map[selected[0]][selected[1]];
-								map[selected[0]][selected[1]] = 0;
-								selected[0]--;
+						}
+						releaseKeyUP = (CheckHitKey(KEY_INPUT_UP) == 0);
+						if (CheckHitKey(KEY_INPUT_DOWN) && releaseKeyDOWN) {
+							//下に移動(座標９より小さかったら動ける)
+							if (selected[0] < 9) {
+								//移動先にものがなかったら
+								if (map[selected[0] + 1][selected[1] - 1] == 0 && map[selected[0] + 1][selected[1]] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8)) {
+									map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
+									map[selected[0]][selected[1]] = 0;
+									map[selected[0]][selected[1] - 1] = 0;
+									selected[0]++;
+								}
+								else if (map[selected[0] + 1][selected[1]] == 0 && (map[selected[0]][selected[1]] == 6 || map[selected[0]][selected[1]] == 7 || map[selected[0]][selected[1]] == 14 || map[selected[0]][selected[1]] == 15)) {
+									map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
+									map[selected[0]][selected[1]] = map[selected[0] - 1][selected[1]];
+									map[selected[0] - 1][selected[1]] = 0;
+									selected[0]++;
+								}
+								else if (map[selected[0] + 1][selected[1]] == 0 && (map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 9))) {
+									map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
+									map[selected[0]][selected[1]] = 0;
+									selected[0]++;
+								}
 							}
+						}
+						releaseKeyDOWN = (CheckHitKey(KEY_INPUT_DOWN) == 0);
+						if (CheckHitKey(KEY_INPUT_RIGHT) && releaseKeyRIGHT) {
+							//右に移動
+							if (selected[1] < 9) {
+								//移動先にものがなかったら
+								if (map[selected[0] - 1][selected[1] + 1] == 0 && map[selected[0]][selected[1] + 1] == 0 && (map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3 || map[selected[0] - 1][selected[1]] == -6 || map[selected[0] - 1][selected[1]] == -7)) {
+									map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
+									map[selected[0]][selected[1]] = 0;
+									map[selected[0] - 1][selected[1]] = 0;
+									selected[1]++;
+								}
+								else if (map[selected[0]][selected[1] + 1] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8)) {
+									map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
+									map[selected[0]][selected[1]] = map[selected[0]][selected[1] - 1];
+									map[selected[0]][selected[1] - 1] = 0;
+									selected[1]++;
+								}
+								else if (map[selected[0]][selected[1] + 1] == 0 && (map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 9))) {
+									map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
+									map[selected[0]][selected[1]] = 0;
+									selected[1]++;
+								}
+							}
+						}
+						releaseKeyRIGHT = (CheckHitKey(KEY_INPUT_RIGHT) == 0);
+						if (CheckHitKey(KEY_INPUT_LEFT) && releaseKeyLEFT) {
+							//左に移動
+							if (selected[1] > 0) {
+								//移動先にものがなかったら
+								if (map[selected[0] - 1][selected[1] - 1] == 0 && map[selected[0]][selected[1] - 1] == 0 && ((map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3 || map[selected[0] - 1][selected[1]] == -6 || map[selected[0] - 1][selected[1]] == -7))) {
+									map[selected[0]][selected[1] - 1] = map[selected[0]][selected[1]];
+									map[selected[0]][selected[1]] = 0;
+									map[selected[0] - 1][selected[1]] = 0;
+									selected[1]--;
+								}
+								else if (map[selected[0]][selected[1] - 2] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8)) {
+									if (selected[1] > 1) {
+										map[selected[0]][selected[1] - 2] = map[selected[0]][selected[1] - 1];
+										map[selected[0]][selected[1] - 1] = map[selected[0]][selected[1]];
+										map[selected[0]][selected[1]] = 0;
+										selected[1]--;
+									}
+								}
+								else if (map[selected[0]][selected[1] - 1] == 0 && (map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 9))) {
+									map[selected[0]][selected[1] - 1] = map[selected[0]][selected[1]];
+									map[selected[0]][selected[1]] = 0;
+									selected[1]--;
+								}
+							}
+						}
+						releaseKeyLEFT = (CheckHitKey(KEY_INPUT_LEFT) == 0);
+
+						if (CheckHitKey(KEY_INPUT_Z) && releaseKeyTurn) {
+							int& currentObject = map[selected[0]][selected[1]];
+
+							// オブジェクトの向きを切り替える処理
+							switch (currentObject) {
+							case 1: currentObject = 2; break; // 左下→右下
+							case 9: currentObject = 10; break; // 左下→右下
+							case 2: currentObject = 3; break; // 右下→右奥
+							case 10: currentObject = 11; break; // 左下→右下
+							case 3: currentObject = 4; break; // 右奥→左奥
+							case 11: currentObject = 12; break; // 左下→右下
+							case 4: currentObject = 1; break; // 左奥→左下
+							case 12: currentObject = 9; break; // 左下→右下
+							case 5:
+								if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0)) {
+									currentObject = 6;
+									map[selected[0]][selected[1] - 1] = 0;
+									map[selected[0] - 1][selected[1]] = -1;
+									std::cout << map;
+									break; // ラージボックス左下→右下
+								}
+							case 13:
+								if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0)) {
+									currentObject = 14;
+									map[selected[0]][selected[1] - 1] = 0;
+									map[selected[0] - 1][selected[1]] = -5;
+									std::cout << map;
+									break; // ラージボックス左下→右下
+								}
+							case 6:
+								if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0)) {
+									currentObject = 8;
+									map[selected[0] - 1][selected[1]] = 0;
+									map[selected[0]][selected[1] - 1] = -2;
+									break; // ラージボックス右下→右奥
+								}
+							case 14:
+								if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0)) {
+									currentObject = 16;
+									map[selected[0] - 1][selected[1]] = 0;
+									map[selected[0]][selected[1] - 1] = -6;
+									break; // ラージボックス右下→右奥
+								}
+							case 7:
+								if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0)) {
+									currentObject = 5;
+									map[selected[0] - 1][selected[1]] = 0;
+									map[selected[0]][selected[1] - 1] = -3;
+									break; // ラージボックス左奥→左下
+								}
+							case 15:
+								if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0)) {
+									currentObject = 13;
+									map[selected[0] - 1][selected[1]] = 0;
+									map[selected[0]][selected[1] - 1] = -7;
+									break; // ラージボックス左奥→左下
+								}
+							case 8:
+								if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0)) {
+									currentObject = 7;
+									map[selected[0]][selected[1] - 1] = 0;
+									map[selected[0] - 1][selected[1]] = -4;
+									break; // ラージボックス右奥→左奥
+								}
+							case 16:
+								if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0)) {
+									currentObject = 15;
+									map[selected[0]][selected[1] - 1] = 0;
+									map[selected[0] - 1][selected[1]] = -8;
+									break; // ラージボックス右奥→左奥
+								}
+
+
+							}
+
+							// 新しいオブジェクトをその位置に設定
+							map[selected[0]][selected[1]] = currentObject;
+						}
+						releaseKeyTurn = (CheckHitKey(KEY_INPUT_Z) == 0);
+
+					}
+				}
+				else {
+					//カーソル移動
+					if (CheckHitKey(KEY_INPUT_UP) && releaseKeyUP) {
+						//上に移動
+						if (0 < selected[0]) {
+							selected[0]--;
 						}
 					}
 					releaseKeyUP = (CheckHitKey(KEY_INPUT_UP) == 0);
 					if (CheckHitKey(KEY_INPUT_DOWN) && releaseKeyDOWN) {
-						//下に移動(座標９より小さかったら動けるヨ)
+						//下に移動
 						if (selected[0] < 9) {
-							//移動先にものがなかったら
-							if (map[selected[0] + 1][selected[1] - 1] == 0 && map[selected[0] + 1][selected[1]] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8)) {
-								map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
-								map[selected[0]][selected[1]] = 0;
-								map[selected[0]][selected[1] - 1] = 0;
-								selected[0]++;
-							}
-							else if (map[selected[0] + 1][selected[1]] == 0 && (map[selected[0]][selected[1]] == 6 || map[selected[0]][selected[1]] == 7 || map[selected[0]][selected[1]] == 14 || map[selected[0]][selected[1]] == 15)) {
-								map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
-								map[selected[0]][selected[1]] = map[selected[0] - 1][selected[1]];
-								map[selected[0] - 1][selected[1]] = 0;
-								selected[0]++;
-							}
-							else if (map[selected[0] + 1][selected[1]] == 0 && (map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 9))) {
-								map[selected[0] + 1][selected[1]] = map[selected[0]][selected[1]];
-								map[selected[0]][selected[1]] = 0;
-								selected[0]++;
-							}
+							selected[0]++;
 						}
 					}
 					releaseKeyDOWN = (CheckHitKey(KEY_INPUT_DOWN) == 0);
 					if (CheckHitKey(KEY_INPUT_RIGHT) && releaseKeyRIGHT) {
 						//右に移動
 						if (selected[1] < 9) {
-							//移動先にものがなかったら
-							if (map[selected[0] - 1][selected[1] + 1] == 0 && map[selected[0]][selected[1] + 1] == 0 && (map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3 || map[selected[0] - 1][selected[1]] == -6 || map[selected[0] - 1][selected[1]] == -7)) {
-								map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
-								map[selected[0]][selected[1]] = 0;
-								map[selected[0] - 1][selected[1]] = 0;
-								selected[1]++;
-							}
-							else if (map[selected[0]][selected[1] + 1] == 0 && (map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8)) {
-								map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
-								map[selected[0]][selected[1]] = map[selected[0]][selected[1] - 1];
-								map[selected[0]][selected[1] - 1] = 0;
-								selected[1]++;
-							}
-							else if (map[selected[0]][selected[1] + 1] == 0 && (map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 9))) {
-								map[selected[0]][selected[1] + 1] = map[selected[0]][selected[1]];
-								map[selected[0]][selected[1]] = 0;
-								selected[1]++;
-							}
+							selected[1]++;
 						}
 					}
 					releaseKeyRIGHT = (CheckHitKey(KEY_INPUT_RIGHT) == 0);
 					if (CheckHitKey(KEY_INPUT_LEFT) && releaseKeyLEFT) {
 						//左に移動
-						if (selected[1] > 0) {
-							//移動先にものがなかったら
-							if (map[selected[0] - 1][selected[1] - 1] == 0 && map[selected[0]][selected[1] - 1] == 0 && ((map[selected[0] - 1][selected[1]] == -2 || map[selected[0] - 1][selected[1]] == -3 || map[selected[0] - 1][selected[1]] == -6 || map[selected[0] - 1][selected[1]] == -7))) {
-								map[selected[0]][selected[1] - 1] = map[selected[0]][selected[1]];
-								map[selected[0]][selected[1]] = 0;
-								map[selected[0] - 1][selected[1]] = 0;
-								selected[1]--;
-							}
-							else if (map[selected[0]][selected[1] - 2] == 0 && ((map[selected[0]][selected[1] - 1] == -1 || map[selected[0]][selected[1] - 1] == -4 || map[selected[0]][selected[1] - 1] == -5 || map[selected[0]][selected[1] - 1] == -8))) {
-								if (selected[1] > 1) {
-									map[selected[0]][selected[1] - 2] = map[selected[0]][selected[1] - 1];
-									map[selected[0]][selected[1] - 1] = map[selected[0]][selected[1]];
-									map[selected[0]][selected[1]] = 0;
-									selected[1]--;
-								}
-							}
-							else if (map[selected[0]][selected[1] - 1] == 0 && (map[selected[0]][selected[1]] <= 4 || (map[selected[0]][selected[1]] <= 12 && map[selected[0]][selected[1]] >= 9))) {
-								map[selected[0]][selected[1] - 1] = map[selected[0]][selected[1]];
-								map[selected[0]][selected[1]] = 0;
-								selected[1]--;
-							}
+						if (0 < selected[1]) {
+							selected[1]--;
 						}
 					}
 					releaseKeyLEFT = (CheckHitKey(KEY_INPUT_LEFT) == 0);
-
-					if (CheckHitKey(KEY_INPUT_Z) && releaseKeyTurn) {
-						int& currentObject = map[selected[0]][selected[1]];
-
-						// オブジェクトの向きを切り替える処理
-						switch (currentObject) {
-						case 1: currentObject = 2; break; // 左下→右下
-						case 9: currentObject = 10; break; // 左下→右下
-						case 2: currentObject = 3; break; // 右下→右奥
-						case 10: currentObject = 11; break; // 左下→右下
-						case 3: currentObject = 4; break; // 右奥→左奥
-						case 11: currentObject = 12; break; // 左下→右下
-						case 4: currentObject = 1; break; // 左奥→左下
-						case 12: currentObject = 9; break; // 左下→右下
-						case 5:
-							if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0)) {
-								currentObject = 6;
-								map[selected[0]][selected[1] - 1] = 0;
-								map[selected[0] - 1][selected[1]] = -1;
-								std::cout << map;
-								break; // ラージボックス左下→右下
-							}
-						case 13:
-							if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0)) {
-								currentObject = 14;
-								map[selected[0]][selected[1] - 1] = 0;
-								map[selected[0] - 1][selected[1]] = -5;
-								std::cout << map;
-								break; // ラージボックス左下→右下
-							}
-						case 6:
-							if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0)) {
-								currentObject = 8;
-								map[selected[0] - 1][selected[1]] = 0;
-								map[selected[0]][selected[1] - 1] = -2;
-								break; // ラージボックス右下→右奥
-							}
-						case 14:
-							if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0)) {
-								currentObject = 16;
-								map[selected[0] - 1][selected[1]] = 0;
-								map[selected[0]][selected[1] - 1] = -6;
-								break; // ラージボックス右下→右奥
-							}
-						case 7:
-							if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0)) {
-								currentObject = 5;
-								map[selected[0] - 1][selected[1]] = 0;
-								map[selected[0]][selected[1] - 1] = -3;
-								break; // ラージボックス左奥→左下
-							}
-						case 15:
-							if ((selected[1] - 1 > -1) && (map[selected[0]][selected[1] - 1] == 0)) {
-								currentObject = 13;
-								map[selected[0] - 1][selected[1]] = 0;
-								map[selected[0]][selected[1] - 1] = -7;
-								break; // ラージボックス左奥→左下
-							}
-						case 8:
-							if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0)) {
-								currentObject = 7;
-								map[selected[0]][selected[1] - 1] = 0;
-								map[selected[0] - 1][selected[1]] = -4;
-								break; // ラージボックス右奥→左奥
-							}
-						case 16:
-							if ((selected[0] - 1 > -1) && (map[selected[0] - 1][selected[1]] == 0)) {
-								currentObject = 15;
-								map[selected[0]][selected[1] - 1] = 0;
-								map[selected[0] - 1][selected[1]] = -8;
-								break; // ラージボックス右奥→左奥
-							}
-
-
-						}
-
-						// 新しいオブジェクトをその位置に設定
-						map[selected[0]][selected[1]] = currentObject;
-					}
-					releaseKeyTurn = (CheckHitKey(KEY_INPUT_Z) == 0);
-
 				}
+				releaseKeySPACE = (CheckHitKey(KEY_INPUT_SPACE) == 0);
+
 			}
-			else {
-				//カーソル移動
-				if (CheckHitKey(KEY_INPUT_UP) && releaseKeyUP) {
-					//上に移動
-					if (0 < selected[0]) {
-						selected[0]--;
-					}
-				}
-				releaseKeyUP = (CheckHitKey(KEY_INPUT_UP) == 0);
-				if (CheckHitKey(KEY_INPUT_DOWN) && releaseKeyDOWN) {
-					//下に移動
-					if (selected[0] < 9) {
-						selected[0]++;
-					}
-				}
-				releaseKeyDOWN = (CheckHitKey(KEY_INPUT_DOWN) == 0);
-				if (CheckHitKey(KEY_INPUT_RIGHT) && releaseKeyRIGHT) {
-					//右に移動
-					if (selected[1] < 9) {
-						selected[1]++;
-					}
-				}
-				releaseKeyRIGHT = (CheckHitKey(KEY_INPUT_RIGHT) == 0);
-				if (CheckHitKey(KEY_INPUT_LEFT) && releaseKeyLEFT) {
-					//左に移動
-					if (0 < selected[1]) {
-						selected[1]--;
-					}
-				}
-				releaseKeyLEFT = (CheckHitKey(KEY_INPUT_LEFT) == 0);
-			}
-			releaseKeySPACE = (CheckHitKey(KEY_INPUT_SPACE) == 0);
-
+			releaseKeyF = (CheckHitKey(KEY_INPUT_F) == 0);
+			releaseKeyB = (CheckHitKey(KEY_INPUT_B) == 0);
 		}
-		releaseKeyF = (CheckHitKey(KEY_INPUT_F) == 0);
-		releaseKeyB = (CheckHitKey(KEY_INPUT_B) == 0);
-	}
-
-
 	return 0;
 }
 
