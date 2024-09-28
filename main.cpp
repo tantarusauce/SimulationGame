@@ -1,7 +1,124 @@
 #include <iostream>
 #include <list>
 #include "DxLib.h"
+#include <queue>
+#include <vector>
+
+
 volatile int EndFlag;
+#define MAP_SIZE 10
+
+struct Position {
+	int x, y;
+};
+
+std::vector<Position> findBoxes(int map[MAP_SIZE][MAP_SIZE]) {
+	std::vector<Position> boxPositions;
+	for (int i = 0; i < MAP_SIZE; ++i) {
+		for (int j = 0; j < MAP_SIZE; ++j) {
+			// 0以外、かつ17ではない位置を箱としてリストに追加
+			if (map[i][j] != 0 && map[i][j] != 17) {
+				boxPositions.push_back({ i, j });
+			}
+		}
+	}
+	return boxPositions;
+}
+
+// 仮のレジの位置（デフォルトでは 5, 5）
+Position registerPos = { 9, 5 };
+
+// 現在の目的地のインデックス
+int currentDestinationIndex = 0;
+
+// 次の目的地を取得する関数
+Position getNextDestination(const std::vector<Position>& boxes) {
+	if (currentDestinationIndex >= boxes.size()) {
+		currentDestinationIndex = 0;  // インデックスをリセット
+		return registerPos;  // すべての箱を回ったらレジに行く
+	}
+	else {
+		return boxes[currentDestinationIndex++];
+	}
+}
+
+// BFSを使って目的地までの最短経路を探す
+std::vector<Position> BFS(int startX, int startY, int humanmap[MAP_SIZE][MAP_SIZE], int map[MAP_SIZE][MAP_SIZE]) {
+	std::queue<std::pair<Position, std::vector<Position>>> q;
+	bool visited[MAP_SIZE][MAP_SIZE] = { false };  // 訪問フラグ
+	std::vector<Position> initialPath = { {startX, startY} };
+
+	q.push({ {startX, startY}, initialPath });
+	visited[startX][startY] = true;
+
+	// 4方向に移動するためのオフセット
+	int dx[] = { 1, -1, 0, 0 };
+	int dy[] = { 0, 0, 1, -1 };
+
+	// 目的地を取得
+	std::vector<Position> boxes = findBoxes(map);  // 箱の位置を動的に取得
+	Position target;
+
+	// 箱が見つからなかった場合はレジの位置を変更
+	if (boxes.empty()) {
+		registerPos = { 5, 6 };  // レジの位置を5,6に変更
+		target = registerPos;
+	}
+	else {
+		target = getNextDestination(boxes);   // 次の目的地を取得
+	}
+
+	while (!q.empty()) {
+		Position current = q.front().first;
+		std::vector<Position> path = q.front().second;
+		q.pop();
+
+		// 目的地に到達したらその経路を返す
+		if (current.x == target.x && current.y == target.y) {
+			return path;
+		}
+
+		// 上下左右に探索
+		for (int i = 0; i < 4; i++) {
+			int newX = current.x + dx[i];
+			int newY = current.y + dy[i];
+
+			// 範囲チェックと訪問済みチェック
+			if (newX >= 0 && newX < MAP_SIZE && newY >= 0 && newY < MAP_SIZE && !visited[newX][newY]) {
+				if (humanmap[newX][newY] == 0 && map[newX][newY] == 0) {  // 人がいない、かつmapが0の場所のみ探索
+					visited[newX][newY] = true;
+					std::vector<Position> newPath = path;
+					newPath.push_back({ newX, newY });
+					q.push({ {newX, newY}, newPath });
+				}
+			}
+		}
+	}
+
+	// 目的地が見つからない場合は、現在位置のみを返す
+	return initialPath;
+}
+
+void MoveCustomer(int& x, int& y, int humanmap[MAP_SIZE][MAP_SIZE], int map[MAP_SIZE][MAP_SIZE], int intervalMs) {
+	// BFSを使って、最も近いmapが0でない場所への経路を探索
+	std::vector<Position> path = BFS(x, y, humanmap, map);
+
+	if (path.size() > 1) {
+		// 現在位置をクリア
+		humanmap[x][y] = 0;
+
+		// 次の位置に移動
+		x = path[1].x;
+		y = path[1].y;
+
+		// インターバルを追加
+		WaitTimer(intervalMs);
+
+		// 新しい位置にお客さんを描画
+		humanmap[x][y] = 1;
+	}
+}
+
 
 void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int LBox5, int LBox6, int LBox7, int LBox8, int Box1f, int Box2f, int Box3f, int LBox1f, int LBox2f, int LBox3f, int LBox4f, int LBox5f, int LBox6f, int LBox7f, int LBox8f, int counter1, int counter2, int humanw1lb, int humanw1rb, int humanw1lf, int humanw1rf, int humanw2lb, int humanw2rb, int humanw2lf, int humanw2rf, int humanw3lb, int humanw3rb, int humanw3lf, int humanw3rf, int humanw4lb, int humanw4rb, int humanw4lf, int humanw4rf, int humanm1lb, int humanm1rb, int humanm1lf, int humanm1rf, int humanm2lb, int humanm2rb, int humanm2lf, int humanm2rf, int humanm3lb, int humanm3rb, int humanm3lf, int humanm3rf, int omi, int back, int select, int product_display, int object_round_left, int map[10][10], int humanmap[10][10], int scene, int selected[2], bool move) {
 	int i, j, k;
@@ -364,6 +481,7 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 DWORD WINAPI MainThread(LPVOID)
 {
 	//初期化
+	int Music;
 	int floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, counter1, counter2, omi;
 	int humanw1lb, humanw1rb, humanw1lf, humanw1rf, humanw2lb, humanw2rb, humanw2lf, humanw2rf, humanw3lb, humanw3rb, humanw3lf, humanw3rf, humanw4lb, humanw4rb, humanw4lf, humanw4rf, humanm1lb, humanm1rb, humanm1lf, humanm1rf, humanm2lb, humanm2rb, humanm2lf, humanm2rf, humanm3lb, humanm3rb, humanm3lf, humanm3rf;
 	int select, back, product_display, object_round_left;
@@ -380,8 +498,17 @@ DWORD WINAPI MainThread(LPVOID)
 	map[3][1] = 8;
 	map[9][8] = 17;
 	humanmap[5][6] = 5;
+	humanmap[9][7] = 3;
 	//humanmap[5][6] = 9;
 	//humanmap[5][6] = 25;
+
+
+	//お客さんの位置
+	int x = 0, y = 6;
+	int startTime = GetNowCount();
+	int timeLimit = 5000; // 5000ミリ秒 (5秒)
+	srand((unsigned)time(NULL)); // ランダムシードの設定
+	int intervalMs = 500;  // 500msのインターバル
 
 
 	floor = LoadGraph("./images/floor.png", TRUE);
@@ -445,8 +572,22 @@ DWORD WINAPI MainThread(LPVOID)
 	product_display = LoadGraph("./images/product_display.png", TRUE);
 	object_round_left = LoadGraph("./images/object_round_left.png", TRUE);
 
+	Music = LoadSoundMem("./Music/異世界の街.ogg");
+	PlaySoundMem(Music, DX_PLAYTYPE_LOOP);
+
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
 		DrawScreen(floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, counter1, counter2, humanw1lb, humanw1rb, humanw1lf, humanw1rf, humanw2lb, humanw2rb, humanw2lf, humanw2rf, humanw3lb, humanw3rb, humanw3lf, humanw3rf, humanw4lb, humanw4rb, humanw4lf, humanw4rf, humanm1lb, humanm1rb, humanm1lf, humanm1rf, humanm2lb, humanm2rb, humanm2lf, humanm2rf, humanm3lb, humanm3rb, humanm3lf, humanm3rf, omi, back, select, product_display, object_round_left, map, humanmap, scene, selected, move);
+		
+		// 一定時間経過後にhumanmap[0][7]を変更
+		if (GetNowCount() - startTime >= timeLimit) {
+			MoveCustomer(x, y, humanmap, map, intervalMs);
+		}
+
+		
+		
+		
+		
+		
 		if (CheckHitKey(KEY_INPUT_F) && releaseKeyF) {
 			scene = 1;
 		}
