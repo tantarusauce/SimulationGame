@@ -379,7 +379,7 @@ DWORD WINAPI MainThread(LPVOID)
 	map[3][3] = 2;
 	map[3][1] = 8;
 	map[9][8] = 17;
-	humanmap[5][6] = 10;
+	humanmap[5][6] = 5;
 	//humanmap[5][6] = 9;
 	//humanmap[5][6] = 25;
 
@@ -459,6 +459,15 @@ DWORD WINAPI MainThread(LPVOID)
 			if (CheckHitKey(KEY_INPUT_UP) && releaseKeyUP) {
 				//上に移動
 				if (humanselected[0] > 0) {
+					if (5 <= humanmap[humanselected[0]][humanselected[1]] and humanmap[humanselected[0]][humanselected[1]] <= 8) { //女性ズボン店員
+						humanmap[humanselected[0]][humanselected[1]] = 6;
+					}
+					else if (9 <= humanmap[humanselected[0]][humanselected[1]] and humanmap[humanselected[0]][humanselected[1]] <= 12) { //女性スカート店員
+						humanmap[humanselected[0]][humanselected[1]] = 10;
+					}
+					else if (25 <= humanmap[humanselected[0]][humanselected[1]] and humanmap[humanselected[0]][humanselected[1]] <= 28) { //男性店員
+						humanmap[humanselected[0]][humanselected[1]] = 26;
+					}
 					//移動先にものがなかったら
 					if (map[humanselected[0] - 1][humanselected[1]] == 0) {
 						humanmap[humanselected[0] - 1][humanselected[1]] = humanmap[humanselected[0]][humanselected[1]];
@@ -469,8 +478,17 @@ DWORD WINAPI MainThread(LPVOID)
 			}
 			releaseKeyUP = (CheckHitKey(KEY_INPUT_UP) == 0);
 			if (CheckHitKey(KEY_INPUT_DOWN) && releaseKeyDOWN) {
-				//下に移動(座標９より小さかったら動けるヨ)
+				//下に移動(座標９より小さかったら動ける)
 				if (humanselected[0] < 9) {
+					if (5 <= humanmap[humanselected[0]][humanselected[1]] and humanmap[humanselected[0]][humanselected[1]] <= 8) { //女性ズボン店員
+						humanmap[humanselected[0]][humanselected[1]] = 7;
+					}
+					else if (9 <= humanmap[humanselected[0]][humanselected[1]] and humanmap[humanselected[0]][humanselected[1]] <= 12) { //女性スカート店員
+						humanmap[humanselected[0]][humanselected[1]] = 11;
+					}
+					else if (25 <= humanmap[humanselected[0]][humanselected[1]] and humanmap[humanselected[0]][humanselected[1]] <= 28) { //男性店員
+						humanmap[humanselected[0]][humanselected[1]] = 27;
+					}
 					//移動先にものがなかったら
 					if (map[humanselected[0] + 1][humanselected[1]] == 0) {
 						humanmap[humanselected[0] + 1][humanselected[1]] = humanmap[humanselected[0]][humanselected[1]];
@@ -483,6 +501,15 @@ DWORD WINAPI MainThread(LPVOID)
 			if (CheckHitKey(KEY_INPUT_RIGHT) && releaseKeyRIGHT) {
 				//右に移動
 				if (humanselected[1] < 9) {
+					if (5 <= humanmap[humanselected[0]][humanselected[1]] and humanmap[humanselected[0]][humanselected[1]] <= 8) { //女性ズボン店員
+						humanmap[humanselected[0]][humanselected[1]] = 8;
+					}
+					else if (9 <= humanmap[humanselected[0]][humanselected[1]] and humanmap[humanselected[0]][humanselected[1]] <= 12) { //女性スカート店員
+						humanmap[humanselected[0]][humanselected[1]] = 11;
+					}
+					else if (25 <= humanmap[humanselected[0]][humanselected[1]] and humanmap[humanselected[0]][humanselected[1]] <= 28) { //男性店員
+						humanmap[humanselected[0]][humanselected[1]] = 28;
+					}
 					//移動先にものがなかったら
 					if (map[humanselected[0]][humanselected[1] + 1] == 0) {
 						humanmap[humanselected[0]][humanselected[1] + 1] = humanmap[humanselected[0]][humanselected[1]];
@@ -495,6 +522,15 @@ DWORD WINAPI MainThread(LPVOID)
 			if (CheckHitKey(KEY_INPUT_LEFT) && releaseKeyLEFT) {
 				//左に移動
 				if (humanselected[1] > 0) {
+					if (5 <= humanmap[humanselected[0]][humanselected[1]] and humanmap[humanselected[0]][humanselected[1]] <= 8) { //女性ズボン店員
+						humanmap[humanselected[0]][humanselected[1]] = 5;
+					}
+					else if (9 <= humanmap[humanselected[0]][humanselected[1]] and humanmap[humanselected[0]][humanselected[1]] <= 12) { //女性スカート店員
+						humanmap[humanselected[0]][humanselected[1]] = 9;
+					}
+					else if (25 <= humanmap[humanselected[0]][humanselected[1]] and humanmap[humanselected[0]][humanselected[1]] <= 28) { //男性店員
+						humanmap[humanselected[0]][humanselected[1]] = 25;
+					}
 					//移動先にものがなかったら
 					if (map[humanselected[0]][humanselected[1] - 1] == 0) {
 						humanmap[humanselected[0]][humanselected[1] - 1] = humanmap[humanselected[0]][humanselected[1]];
