@@ -1,4 +1,5 @@
 #include <iostream>
+#include <list>
 #include "DxLib.h"
 volatile int EndFlag;
 
@@ -366,10 +367,11 @@ DWORD WINAPI MainThread(LPVOID)
 	int floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, counter1, counter2, omi;
 	int humanw1lb, humanw1rb, humanw1lf, humanw1rf, humanw2lb, humanw2rb, humanw2lf, humanw2rf, humanw3lb, humanw3rb, humanw3lf, humanw3rf, humanw4lb, humanw4rb, humanw4lf, humanw4rf, humanm1lb, humanm1rb, humanm1lf, humanm1rf, humanm2lb, humanm2rb, humanm2lf, humanm2rf, humanm3lb, humanm3rb, humanm3lf, humanm3rf;
 	int select, back, product_display, object_round_left;
-	int scene = 0;
+	int scene = 0, money = 0;
 	bool releaseKeyF = true, releaseKeyB = true, releaseKeySPACE = true, releaseKeyUP = true, releaseKeyDOWN = true, releaseKeyTurn = true;
-	bool releaseKeyLEFT = true, releaseKeyRIGHT = true, releaseKeyI = true;
-	bool sceneF = false, move = false;
+	bool releaseKeyLEFT = true, releaseKeyRIGHT = true, releaseKeyI = true, releaseKeyC = true;
+	bool sceneF = false, move = false, waitting_guest = true;
+	std::list<int> money_gest{5,55,555};
 	int map[10][10]{};
 	int humanmap[10][10]{};
 	int selected[2] = { 0, 0 };
@@ -502,6 +504,22 @@ DWORD WINAPI MainThread(LPVOID)
 				}
 			}
 			releaseKeyLEFT = (CheckHitKey(KEY_INPUT_LEFT) == 0);
+			//お金巻き上げ機構
+			if (waitting_guest) {
+				if (CheckHitKey(KEY_INPUT_C) && releaseKeyC) {
+					if (humanmap[humanselected[0]][humanselected[1]] == humanmap[8][9]) {
+						humanmap[1][1] = 1;
+						std::list<int>::iterator it = money_gest.begin();
+						money = *it;
+						money_gest.pop_front();
+						if (money_gest.size() == 0) {
+							waitting_guest = false;
+							humanmap[1][1] = 0;
+						}
+					}
+				}
+			}
+			releaseKeyC = (CheckHitKey(KEY_INPUT_C) == 0);
 		}
 		else if (scene == 1) {
 				//オブジェクト移動画面
