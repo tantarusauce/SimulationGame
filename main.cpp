@@ -2,7 +2,7 @@
 #include "DxLib.h"
 volatile int EndFlag;
 
-void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int LBox5, int LBox6, int LBox7, int LBox8, int Box1f, int Box2f, int Box3f, int LBox1f, int LBox2f, int LBox3f, int LBox4f, int LBox5f, int LBox6f, int LBox7f, int LBox8f, int counter, int omi, int back, int select, int product_display, int object_round_left, int map[10][10], int scene, int selected[2], bool move) {
+void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int LBox5, int LBox6, int LBox7, int LBox8, int Box1f, int Box2f, int Box3f, int LBox1f, int LBox2f, int LBox3f, int LBox4f, int LBox5f, int LBox6f, int LBox7f, int LBox8f, int counter, int humanw1lb, int humanw1rb, int humanw1lf, int humanw1rf, int humanw2lb, int humanw2rb, int humanw2lf, int humanw2rf, int humanw3lb, int humanw3rb, int humanw3lf, int humanw3rf, int humanw4lb, int humanw4rb, int humanw4lf, int humanw4rf, int humanm1lb, int humanm1rb, int humanm1lf, int humanm1rf, int humanm2lb, int humanm2rb, int humanm2lf, int humanm2rf, int humanm3lb, int humanm3rb, int humanm3lf, int humanm3rf, int omi, int back, int select, int product_display, int object_round_left, int map[10][10], int humanmap[10][10], int scene, int selected[2], bool move) {
 	int i, j, k;
 	DrawRotaGraph(440, -62, 1, 0, Rwall, TRUE);
 	DrawRotaGraph(200, -62, 1, 0, Lwall, TRUE);
@@ -46,6 +46,7 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 	}
 	for (i = 0; i < 10; i++) {
 		for (j = 0; j < 10; j++) {
+			//オブジェクトの描画
 			switch (map[i][j]) {
 			case -8:
 				if (selected[0] == i && selected[1] - 1 == j && scene == 1 && move) {
@@ -118,7 +119,72 @@ void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, i
 				else {
 					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, floor, TRUE);
 				}
-
+				//人の描画
+				switch (humanmap[i][j]) {
+				//ワンピース女性
+				case 1:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw1lb, TRUE);
+				case 2:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw1rb, TRUE);
+				case 3:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw1lf, TRUE);
+				case 4:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw1rf, TRUE);
+				//ズボン女性店員
+				case 5:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw2lb, TRUE);
+				case 6:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw2rb, TRUE);
+				case 7:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw2lf, TRUE);
+				case 8:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw2rf, TRUE);
+				//スカート女性店員
+				case 9:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw3lb, TRUE);
+				case 10:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw3rb, TRUE);
+				case 11:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw3lf, TRUE);
+				case 12:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw3rf, TRUE);
+				//女学生
+				case 13:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw4lb, TRUE);
+				case 14:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw4rb, TRUE);
+				case 15:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw4lf, TRUE);
+				case 16:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanw4rf, TRUE);
+				//私服男性1
+				case 17:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanm1lb, TRUE);
+				case 18:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanm1rb, TRUE);
+				case 19:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanm1lf, TRUE);
+				case 20:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanm1rf, TRUE);
+				//私服男性2
+				case 21:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanm2lb, TRUE);
+				case 22:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanm2rb, TRUE);
+				case 23:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanm2lf, TRUE);
+				case 24:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanm2rf, TRUE);
+				//男性店員
+				case 25:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanm3lb, TRUE);
+				case 26:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanm3rb, TRUE);
+				case 27:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanm3lf, TRUE);
+				case 28:
+					DrawRotaGraph(24 * j - i * 24 + 320, 12 * i + 12 * j + 150, 1, 0, humanm3rf, TRUE);
+				}
 				break;
 			case 1://左下を向いたボックス
 				if (selected[0] == i && selected[1] == j && scene == 1 && move) {
@@ -267,6 +333,7 @@ DWORD WINAPI MainThread(LPVOID)
 	bool releaseKeyLEFT = true, releaseKeyRIGHT = true, releaseKeyI = true;
 	bool sceneF = false, move = false;
 	int map[10][10]{};
+	int humanmap[10][10]{};
 	int selected[2] = { 0, 0 };
 	map[3][3] = 2;
 	map[3][1] = 8;
@@ -334,7 +401,7 @@ DWORD WINAPI MainThread(LPVOID)
 	object_round_left = LoadGraph("./images/object_round_left.png", TRUE);
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
-		DrawScreen(floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, counter, omi, back, select, product_display, object_round_left, map, scene, selected, move);
+		DrawScreen(floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, counter, humanw1lb, humanw1rb, humanw1lf, humanw1rf, humanw2lb, humanw2rb, humanw2lf, humanw2rf, humanw3lb, humanw3rb, humanw3lf, humanw3rf, humanw4lb, humanw4rb, humanw4lf, humanw4rf, humanm1lb, humanm1rb, humanm1lf, humanm1rf, humanm2lb, humanm2rb, humanm2lf, humanm2rf, humanm3lb, humanm3rb, humanm3lf, humanm3rf, omi, back, select, product_display, object_round_left, map, humanmap, scene, selected, move);
 		if (CheckHitKey(KEY_INPUT_F) && releaseKeyF) {
 			scene = 1;
 		}
