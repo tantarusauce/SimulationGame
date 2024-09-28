@@ -704,41 +704,40 @@ DWORD WINAPI MainThread(LPVOID)
 				if (CheckHitKey(KEY_INPUT_SPACE) && releaseKeySPACE) {
 					move = move ? false : true;
 				}
-				//1*1‚Ì’I‚Ì’Ç‰Á
-				if (CheckHitKey(KEY_INPUT_G) && releaseKeyG) {
-					if (map[selected[0]][selected[1]] == 0) {
-						map[selected[0]][selected[1]] = 1;
-					}
-				}
-				releaseKeyG = (CheckHitKey(KEY_INPUT_G) == 0);
-				//1*2‚Ì’I‚Ì’Ç‰Á
-				if (CheckHitKey(KEY_INPUT_H) && releaseKeyH) {
-					if (selected[1] > 0) {
-						if (map[selected[0]][selected[1] - 1] == 0 && map[selected[0]][selected[1]] == 0) {
-							map[selected[0]][selected[1]] = 5;
+				if (move) {
+					//1*1‚Ì’I‚Ì’Ç‰Á
+					if (CheckHitKey(KEY_INPUT_G) && releaseKeyG) {
+						if (map[selected[0]][selected[1]] == 0) {
+							map[selected[0]][selected[1]] = 1;
 						}
 					}
-				}
-				releaseKeyH = (CheckHitKey(KEY_INPUT_H) == 0);
-				//’I‚Ìíœ
-				if (CheckHitKey(KEY_INPUT_D) && releaseKeyD) {
-					if (map[selected[0]][selected[1]] == 0) {
-						
+					releaseKeyG = (CheckHitKey(KEY_INPUT_G) == 0);
+					//1*2‚Ì’I‚Ì’Ç‰Á
+					if (CheckHitKey(KEY_INPUT_H) && releaseKeyH) {
+						if (selected[1] > 0) {
+							if (map[selected[0]][selected[1] - 1] == 0 && map[selected[0]][selected[1]] == 0) {
+								map[selected[0]][selected[1]] = 5;
+							}
+						}
 					}
-					else if (map[selected[0]][selected[1]] >= 1 && map[selected[0]][selected[1]] <= 4 || map[selected[0]][selected[1]] >= 9 && map[selected[0]][selected[1]] <= 12) {
-						map[selected[0]][selected[1]] = 0;
+					releaseKeyH = (CheckHitKey(KEY_INPUT_H) == 0);
+					//’I‚Ìíœ
+					if (CheckHitKey(KEY_INPUT_D) && releaseKeyD) {
+						if (map[selected[0]][selected[1]] == 0) {
+
+						}
+						else if (map[selected[0]][selected[1]] >= 1 && map[selected[0]][selected[1]] <= 4 || map[selected[0]][selected[1]] >= 9 && map[selected[0]][selected[1]] <= 12) {
+							map[selected[0]][selected[1]] = 0;
+						}
+						else if (map[selected[0]][selected[1]] == 5 || map[selected[0]][selected[1]] == 8 || map[selected[0]][selected[1]] == 9 || map[selected[0]][selected[1]] == 12) {
+							map[selected[0]][selected[1] - 1] = 0;
+							map[selected[0]][selected[1]] = 0;
+						}
+						else {
+							map[selected[0] - 1][selected[1]] = 0;
+							map[selected[0]][selected[1]] = 0;
+						}
 					}
-					else if (map[selected[0]][selected[1]] == 5 || map[selected[0]][selected[1]] == 8 || map[selected[0]][selected[1]] == 9 || map[selected[0]][selected[1]] == 12){
-						map[selected[0]][selected[1] - 1] = 0;
-						map[selected[0]][selected[1]] = 0;
-					}
-					else {
-						map[selected[0] - 1][selected[1]] = 0;
-						map[selected[0]][selected[1]] = 0;
-					}
-				}
-				
-				if (move) {
 					if (map[selected[0]][selected[1]] >= 1 && map[selected[0]][selected[1]] <= 8) {
 						if (CheckHitKey(KEY_INPUT_I) && releaseKeyI) {
 							map[selected[0]][selected[1]] += 8;
