@@ -487,7 +487,7 @@ DWORD WINAPI MainThread(LPVOID)
 	int select, back, product_display, object_round_left;
 	int scene = 0, money = 0;
 	bool releaseKeyF = true, releaseKeyB = true, releaseKeySPACE = true, releaseKeyUP = true, releaseKeyDOWN = true, releaseKeyTurn = true;
-	bool releaseKeyLEFT = true, releaseKeyRIGHT = true, releaseKeyI = true, releaseKeyC = true;
+	bool releaseKeyLEFT = true, releaseKeyRIGHT = true, releaseKeyI = true, releaseKeyC = true, releaseKeyG = true, releaseKeyH = true;
 	bool sceneF = false, move = false, waitting_guest = true;
 	std::list<int> money_gest{5,55,555};
 	int map[10][10]{};
@@ -703,6 +703,20 @@ DWORD WINAPI MainThread(LPVOID)
 				if (CheckHitKey(KEY_INPUT_SPACE) && releaseKeySPACE) {
 					move = move ? false : true;
 				}
+				if (CheckHitKey(KEY_INPUT_G) && releaseKeyG) {
+					if (map[selected[0]][selected[1]] == 0) {
+						map[selected[0]][selected[1]] = 1;
+					}
+				}
+				releaseKeyG = (CheckHitKey(KEY_INPUT_G) == 0);
+				if (CheckHitKey(KEY_INPUT_H) && releaseKeyH) {
+					if (selected[1] > 0) {
+						if (map[selected[0]][selected[1] - 1] == 0 && map[selected[0]][selected[1]] == 0) {
+							map[selected[0]][selected[1]] = 5;
+						}
+					}
+				}
+				releaseKeyH = (CheckHitKey(KEY_INPUT_H) == 0);
 				if (move) {
 					if (map[selected[0]][selected[1]] >= 1 && map[selected[0]][selected[1]] <= 8) {
 						if (CheckHitKey(KEY_INPUT_I) && releaseKeyI) {
@@ -891,10 +905,7 @@ DWORD WINAPI MainThread(LPVOID)
 									map[selected[0] - 1][selected[1]] = -8;
 									break; // ラージボックス右奥→左奥
 								}
-
-
 							}
-
 							// 新しいオブジェクトをその位置に設定
 							map[selected[0]][selected[1]] = currentObject;
 						}
