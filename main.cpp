@@ -8,6 +8,12 @@
 volatile int EndFlag;
 #define MAP_SIZE 10
 
+// 移動タイミングを管理する変数
+int lastMoveTime = 0;
+int moveIntervalMs = 500;  // 500msごとに移動v
+int waitting_guest = 0;  // グローバルに定義
+
+
 struct Position {
 	int x, y;
 };
@@ -25,8 +31,8 @@ std::vector<Position> findBoxes(int map[MAP_SIZE][MAP_SIZE]) {
 	return boxPositions;
 }
 
-// 仮のレジの位置（デフォルトでは 5, 5）
-Position registerPos = { 9, 5 };
+// 仮のレジの位置
+Position registerPos = { 9, 7 };
 
 // 現在の目的地のインデックス
 int currentDestinationIndex = 0;
@@ -60,8 +66,11 @@ std::vector<Position> BFS(int startX, int startY, int humanmap[MAP_SIZE][MAP_SIZ
 	Position target;
 
 	// 箱が見つからなかった場合はレジの位置を変更
-	if (boxes.empty()) {
-		registerPos = { 5, 6 };  // レジの位置を5,6に変更
+	if(waitting_guest == 2){
+		target = { 0,7 };
+	}
+	else if (boxes.empty()) {
+		registerPos = { 9, 7 };  // レジの位置を5,6に変更
 		target = registerPos;
 	}
 	else {
@@ -99,25 +108,51 @@ std::vector<Position> BFS(int startX, int startY, int humanmap[MAP_SIZE][MAP_SIZ
 	return initialPath;
 }
 
-void MoveCustomer(int& x, int& y, int humanmap[MAP_SIZE][MAP_SIZE], int map[MAP_SIZE][MAP_SIZE], int intervalMs) {
-	// BFSを使って、最も近いmapが0でない場所への経路を探索
-	std::vector<Position> path = BFS(x, y, humanmap, map);
+void MoveCustomer(int& x, int& y, int humanmap[MAP_SIZE][MAP_SIZE], int map[MAP_SIZE][MAP_SIZE]) {
+	// 現在の時間を取得
+	int currentTime = GetNowCount();
 
-	if (path.size() > 1) {
-		// 現在位置をクリア
-		humanmap[x][y] = 0;
+	// 最後に移動した時間から500ms経過したかチェック
+	if (currentTime - lastMoveTime >= moveIntervalMs) {
+		// waitting_guest が 1 の場合は動きを止める
+		if (waitting_guest == 1) {
+			return;  // 待機中なら何もしない
+		}
 
-		// 次の位置に移動
-		x = path[1].x;
-		y = path[1].y;
+		// waitting_guest が 2 の場合、元の位置に戻る
+		if (waitting_guest == 2) {
+			// 0,7に到着したら待機状態を解除
+			if (x == 0 && y == 7) {
+				waitting_guest = 0;
+			}
+		}
 
-		// インターバルを追加
-		WaitTimer(intervalMs);
+		// BFSを使って、目的地までの経路を探索
+		std::vector<Position> path = BFS(x, y, humanmap, map);
 
-		// 新しい位置にお客さんを描画
-		humanmap[x][y] = 1;
+		if (path.size() > 1) {
+			// 9,7 に到達した場合、waitting_guest を 1 に設定して処理を終了
+			if (path[1].x == 9 && path[1].y == 7) {
+				waitting_guest = 1;
+				return;
+			}
+
+			// 現在位置をクリア
+			humanmap[x][y] = 0;
+
+			// 次の位置に移動
+			x = path[1].x;
+			y = path[1].y;
+
+			// 新しい位置にお客さんを描画
+			humanmap[x][y] = 1;
+
+			// 最後に移動した時間を更新
+			lastMoveTime = currentTime;
+		}
 	}
 }
+
 
 
 void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int LBox5, int LBox6, int LBox7, int LBox8, int Box1f, int Box2f, int Box3f, int LBox1f, int LBox2f, int LBox3f, int LBox4f, int LBox5f, int LBox6f, int LBox7f, int LBox8f, int counter1, int counter2, int humanw1lb, int humanw1rb, int humanw1lf, int humanw1rf, int humanw2lb, int humanw2rb, int humanw2lf, int humanw2rf, int humanw3lb, int humanw3rb, int humanw3lf, int humanw3rf, int humanw4lb, int humanw4rb, int humanw4lf, int humanw4rf, int humanm1lb, int humanm1rb, int humanm1lf, int humanm1rf, int humanm2lb, int humanm2rb, int humanm2lf, int humanm2rf, int humanm3lb, int humanm3rb, int humanm3lf, int humanm3rf, int omi, int back, int select, int product_display, int object_round_left, int map[10][10], int humanmap[10][10], int scene, int selected[2], bool move) {
@@ -489,7 +524,7 @@ DWORD WINAPI MainThread(LPVOID)
 	bool releaseKeyF = true, releaseKeyB = true, releaseKeySPACE = true, releaseKeyUP = true, releaseKeyDOWN = true, releaseKeyTurn = true;
 	bool releaseKeyLEFT = true, releaseKeyRIGHT = true, releaseKeyI = true, releaseKeyC = true, releaseKeyG = true, releaseKeyH = true;
 	bool releaseKeyD = true;
-	bool sceneF = false, move = false, waitting_guest = true;
+	bool sceneF = false, move = false;
 	std::list<int> money_gest{5,55,555};
 	int map[10][10]{};
 	int humanmap[10][10]{};
@@ -504,7 +539,7 @@ DWORD WINAPI MainThread(LPVOID)
 
 
 	//お客さんの位置
-	int x = 0, y = 6;
+	int x = 0, y = 7;
 	int startTime = GetNowCount();
 	int timeLimit = 5000; // 5000ミリ秒 (5秒)
 	srand((unsigned)time(NULL)); // ランダムシードの設定
@@ -580,7 +615,7 @@ DWORD WINAPI MainThread(LPVOID)
 		
 		// 一定時間経過後にhumanmap[0][7]を変更
 		if (GetNowCount() - startTime >= timeLimit) {
-			MoveCustomer(x, y, humanmap, map, intervalMs);
+			MoveCustomer(x, y, humanmap, map);
 		}
 
 		if (CheckHitKey(KEY_INPUT_F) && releaseKeyF) {
@@ -677,20 +712,28 @@ DWORD WINAPI MainThread(LPVOID)
 			}
 			releaseKeyLEFT = (CheckHitKey(KEY_INPUT_LEFT) == 0);
 			//お金巻き上げ機構
-			if (waitting_guest) {
+			if (waitting_guest==1) {
 				if (CheckHitKey(KEY_INPUT_C) && releaseKeyC) {
-					if (humanmap[humanselected[0]][humanselected[1]] == humanmap[8][9]) {
-						humanmap[1][1] = 1;
-						std::list<int>::iterator it = money_gest.begin();
-						money = *it;
-						money_gest.pop_front();
-						if (money_gest.size() == 0) {
-							waitting_guest = false;
-							humanmap[1][1] = 0;
-						}
+					// お客さんの支払い処理を実行
+					std::list<int>::iterator it = money_gest.begin();
+					if (it != money_gest.end()) {
+						int money = *it;  // お金を取得
+						money_gest.pop_front();  // リストから削除
+					}
+
+					// リストが空になったら、待機状態を解除して移動を再開
+					if (money_gest.empty()) {
+						waitting_guest = 2;
 					}
 				}
 			}
+			if (waitting_guest) {
+				humanmap[1][1] = 1;
+			}
+			else {
+				humanmap[1][1] = 0;
+			}
+
 			releaseKeyC = (CheckHitKey(KEY_INPUT_C) == 0);
 		}
 		else if (scene == 1) {
