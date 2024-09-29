@@ -155,9 +155,10 @@ void MoveCustomer(int& x, int& y, int humanmap[MAP_SIZE][MAP_SIZE], int map[MAP_
 
 
 
-void DrawScreen(int floor, int Lwall, int Rwall, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int LBox5, int LBox6, int LBox7, int LBox8, int Box1f, int Box2f, int Box3f, int LBox1f, int LBox2f, int LBox3f, int LBox4f, int LBox5f, int LBox6f, int LBox7f, int LBox8f, int counter1, int counter2, int humanw1lb, int humanw1rb, int humanw1lf, int humanw1rf, int humanw2lb, int humanw2rb, int humanw2lf, int humanw2rf, int humanw3lb, int humanw3rb, int humanw3lf, int humanw3rf, int humanw4lb, int humanw4rb, int humanw4lf, int humanw4rf, int humanm1lb, int humanm1rb, int humanm1lf, int humanm1rf, int humanm2lb, int humanm2rb, int humanm2lf, int humanm2rf, int humanm3lb, int humanm3rb, int humanm3lf, int humanm3rf, int omi, int back, int select, int product_display, int object_round_left, int map[10][10], int humanmap[10][10], int scene, int selected[2], bool move) {
+void DrawScreen(int floor, int Lwall, int Rwall, int Rwall_new, int Box1, int Box2, int Box3, int LBox1, int LBox2, int LBox3, int LBox4, int LBox5, int LBox6, int LBox7, int LBox8, int Box1f, int Box2f, int Box3f, int LBox1f, int LBox2f, int LBox3f, int LBox4f, int LBox5f, int LBox6f, int LBox7f, int LBox8f, int counter1, int counter2, int humanw1lb, int humanw1rb, int humanw1lf, int humanw1rf, int humanw2lb, int humanw2rb, int humanw2lf, int humanw2rf, int humanw3lb, int humanw3rb, int humanw3lf, int humanw3rf, int humanw4lb, int humanw4rb, int humanw4lf, int humanw4rf, int humanm1lb, int humanm1rb, int humanm1lf, int humanm1rf, int humanm2lb, int humanm2rb, int humanm2lf, int humanm2rf, int humanm3lb, int humanm3rb, int humanm3lf, int humanm3rf, int omi, int back, int select, int product_display, int object_round_left, int map[10][10], int humanmap[10][10], int scene, int selected[2], bool move) {
 	int i, j, k;
-	DrawRotaGraph(440, -62, 1, 0, Rwall, TRUE);
+	//DrawRotaGraph(440, -62, 1, 0, Rwall, TRUE);
+	DrawRotaGraph(440, -62, 1, 0, Rwall_new, TRUE);
 	DrawRotaGraph(200, -62, 1, 0, Lwall, TRUE);
 	if (move && map[selected[0]][selected[1]] >= 1 && map[selected[0]][selected[1]] <= 8) {
 		DrawRotaGraph(100, 350, 0.4, 0, product_display, TRUE);
@@ -517,7 +518,7 @@ DWORD WINAPI MainThread(LPVOID)
 {
 	//‰Šú‰»
 	int Music;
-	int floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, counter1, counter2, omi;
+	int floor, Lwall, Rwall, Rwall_new, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, counter1, counter2, omi;
 	int humanw1lb, humanw1rb, humanw1lf, humanw1rf, humanw2lb, humanw2rb, humanw2lf, humanw2rf, humanw3lb, humanw3rb, humanw3lf, humanw3rf, humanw4lb, humanw4rb, humanw4lf, humanw4rf, humanm1lb, humanm1rb, humanm1lf, humanm1rf, humanm2lb, humanm2rb, humanm2lf, humanm2rf, humanm3lb, humanm3rb, humanm3lf, humanm3rf;
 	int select, back, product_display, object_round_left;
 	int scene = 0, money = 0;
@@ -569,6 +570,7 @@ DWORD WINAPI MainThread(LPVOID)
 	floor = LoadGraph("./images/floor.png", TRUE);
 	Lwall = LoadGraph("./images/wallleft.png", TRUE);
 	Rwall = LoadGraph("./images/wallright.png", TRUE);
+	Rwall_new = LoadGraph("./images/wallright_new.png", TRUE);
 	Box1 = LoadGraph("./images/miniShelfLeft.png", TRUE);
 	Box2 = LoadGraph("./images/miniShelfRight.png", TRUE);
 	Box3 = LoadGraph("./images/miniShelfBack.png", TRUE);
@@ -631,7 +633,7 @@ DWORD WINAPI MainThread(LPVOID)
 	PlaySoundMem(Music, DX_PLAYTYPE_LOOP);
 
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0) {
-		DrawScreen(floor, Lwall, Rwall, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, counter1, counter2, humanw1lb, humanw1rb, humanw1lf, humanw1rf, humanw2lb, humanw2rb, humanw2lf, humanw2rf, humanw3lb, humanw3rb, humanw3lf, humanw3rf, humanw4lb, humanw4rb, humanw4lf, humanw4rf, humanm1lb, humanm1rb, humanm1lf, humanm1rf, humanm2lb, humanm2rb, humanm2lf, humanm2rf, humanm3lb, humanm3rb, humanm3lf, humanm3rf, omi, back, select, product_display, object_round_left, map, humanmap, scene, selected, move);
+		DrawScreen(floor, Lwall, Rwall, Rwall_new, Box1, Box2, Box3, LBox1, LBox2, LBox3, LBox4, LBox5, LBox6, LBox7, LBox8, Box1f, Box2f, Box3f, LBox1f, LBox2f, LBox3f, LBox4f, LBox5f, LBox6f, LBox7f, LBox8f, counter1, counter2, humanw1lb, humanw1rb, humanw1lf, humanw1rf, humanw2lb, humanw2rb, humanw2lf, humanw2rf, humanw3lb, humanw3rb, humanw3lf, humanw3rf, humanw4lb, humanw4rb, humanw4lf, humanw4rf, humanm1lb, humanm1rb, humanm1lf, humanm1rf, humanm2lb, humanm2rb, humanm2lf, humanm2rf, humanm3lb, humanm3rb, humanm3lf, humanm3rf, omi, back, select, product_display, object_round_left, map, humanmap, scene, selected, move);
 		
 		// ˆê’èŽžŠÔŒo‰ßŒã‚Éhumanmap[0][7]‚ð•ÏX
 		if (GetNowCount() - startTime >= timeLimit) {
