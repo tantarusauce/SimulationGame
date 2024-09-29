@@ -680,13 +680,13 @@ DWORD WINAPI MainThread(LPVOID)
 			if (waitting_guest) {
 				if (CheckHitKey(KEY_INPUT_C) && releaseKeyC) {
 					if (humanmap[humanselected[0]][humanselected[1]] == humanmap[8][9]) {
-						humanmap[1][1] = 1;
+						humanmap[1][1] = 1; //動作確認用
 						std::list<int>::iterator it = money_gest.begin();
 						money = *it;
 						money_gest.pop_front();
 						if (money_gest.size() == 0) {
 							waitting_guest = false;
-							humanmap[1][1] = 0;
+							humanmap[1][1] = 0; //動作確認用
 						}
 					}
 				}
