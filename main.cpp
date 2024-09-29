@@ -531,8 +531,28 @@ DWORD WINAPI MainThread(LPVOID)
 	int humanmap[10][10]{};
 	int selected[2] = { 0, 0 };
 	int humanselected[2] = { 8, 9 }; //humanmap‚Æ“¯‚¶‚É‚µ‚Ä‚¨‚­
-	map[3][3] = 2;
-	map[3][1] = 8;
+	map[0][2] = 5;
+	map[0][4] = 5;
+	map[0][6] = 13;
+	map[0][9] = 5;
+	map[2][0] = 6;
+	map[4][0] = 14;
+	map[6][0] = 14;
+	map[8][0] = 6;
+	map[5][3] = 7;
+	map[8][6] = 7;
+	map[3][5] = 8;
+	map[3][7] = 8;
+	map[3][9] = 8;
+	map[6][8] = 8;
+	map[9][2] = 8;
+	map[9][4] = 8;
+	map[9][5] = 3;
+
+
+
+
+
 	map[9][8] = 17;
 	humanmap[8][9] = 5;
 	//humanmap[5][6] = 9;
@@ -728,12 +748,6 @@ DWORD WINAPI MainThread(LPVOID)
 						waitting_guest = 2;
 					}
 				}
-			}
-			if (waitting_guest) {
-				humanmap[1][1] = 1;
-			}
-			else {
-				humanmap[1][1] = 0;
 			}
 
 			releaseKeyC = (CheckHitKey(KEY_INPUT_C) == 0);
